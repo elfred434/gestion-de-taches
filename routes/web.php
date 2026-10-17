@@ -11,5 +11,9 @@ Route::get('/bonjour', function () {
 });
 
 Route::get('/presentation', function() {
-    return "Je m'appelle Elfred et j'apprends Laravel.";
+    return view('presentation', [
+        'prenom' => 'Elfred',
+        'objectif' => 'objectif',
+        'valeur' => 'Créer mon premier gestionnaire de tâcjes',
+    ]);
 });
