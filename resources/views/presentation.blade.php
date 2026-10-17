@@ -7,7 +7,7 @@
 <body>
     <h1>Bonjour, je suis {{ $prenom }}</h1>
     <p>J'apprends à créer des applications avec Laravel.</p>
-    <p>Mon objectif est de {{ $objectif }}</p>
-    <p>Taches : {{ $valeur }}</p>
+    <p>Mon objectif est de :{{ $objectif }}</p>
+    
 </body>
 </html>

@@ -13,7 +13,7 @@ Route::get('/bonjour', function () {
 Route::get('/presentation', function() {
     return view('presentation', [
         'prenom' => 'Elfred',
-        'objectif' => 'objectif',
-        'valeur' => 'Créer mon premier gestionnaire de tâcjes',
+        
+        'objectif' => 'Créer mon premier gestionnaire de tâcjes',
     ]);
 });
