@@ -16,10 +16,10 @@ Route::get('/presentation', function() {
         
         'objectif' => 'Créer mon premier gestionnaire de tâcjes',
         'taches' => [
-            'Apprendre les routes',
-            'Créer une vue',
-            'Afficher des données',
-            'Avoir un bon niveau en laravel',
+            // 'Apprendre les routes',
+            // 'Créer une vue',
+            // 'Afficher des données',
+            // 'Avoir un bon niveau en laravel',
         ]
     ]);
 });

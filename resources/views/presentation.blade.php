@@ -11,9 +11,11 @@
     <br>
     <h2>Mes tâches</h2>
     <ul>
-        @foreach ($taches as $task )
+        @forelse ($taches as $task )
             <li>{{ $task }}</li>
-        @endforeach
+        @empty
+            <li>Aucune tâche pour le moment</li>
+        @endforelse
     </ul>
     
 </body>
