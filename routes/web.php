@@ -39,7 +39,7 @@ Route::get('/taches/creer', [
     'creerTache',
 ])->name('taches.create');
 
-Route::get('/taches', [
+Route::post('/taches', [
     PresentationController::class,
     'recevoirtache',
 ])->name('taches.store');
