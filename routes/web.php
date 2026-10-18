@@ -37,18 +37,18 @@ Route::get('/bibliotheque', function() {
         'prenom' => 'Elfred',
         'livres' => [
             [
-                'Titre' => 'Le petit prince',
-                'Auteur' => 'Antoine de Saint-Exupéry',
+                'titre' => 'Le petit prince',
+                'auteur' => 'Antoine de Saint-Exupéry',
                 'lu' => true
             ],
             [
-                'Titre' => "L'enfant noir",
-                'Auteur' => 'Camara Laye',
+                'titre' => "L'enfant noir",
+                'auteur' => 'Camara Laye',
                 'lu' => false
             ],
             [
-                'Titre' => "Une si longue lettre",
-                'Auteur' => "Mariame Bâ",
+                'titre' => "Une si longue lettre",
+                'auteur' => "Mariama Bâ",
                 'lu' => false
             ],
 
