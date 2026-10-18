@@ -10,6 +10,7 @@
     <p>Mon objectif est de :{{ $objectif }}</p>
     <br>
     <h2>Mes tâches</h2>
+    <p>Nombre de taches pour l'instant {{count($taches)}}</p>
     <ul>
         @forelse ($taches as $task )
             <li>{{ $task['titre'] }}
@@ -19,6 +20,7 @@
                     -- A faire
                 @endif
             </li>
+            
         @empty
             <li>Aucune tâche pour le moment</li>
         @endforelse
