@@ -39,7 +39,10 @@ class TacheController extends Controller
         $tache->description = $donnees['description'] ?? null;
 
         $tache->save();    
-        return redirect()->route('taches.index');    
+        return redirect()
+        ->route('taches.index')
+        //ajout du message de confirmation
+        -> with('succes', 'La tâche a bien été enregistrées') ;    
             
         // return view('taches.confirmation', [
         //     'titre' => $donnees['titre'],

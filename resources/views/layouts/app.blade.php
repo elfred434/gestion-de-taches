@@ -10,11 +10,15 @@
     <nav>
         <a href="{{ route('presentation.show') }}">Présentation</a>
         <a href="{{ route('bibliotheque.index') }}">Bibliothèque</a>
+        <a href="{{ route('taches.index') }}">Mes tâches</a>
     </nav>
 
     <hr>
 
     <main>
+        @if (session('succes'))
+            <p role="status">{{ session('succes')}}</p>
+        @endif
         @yield('contenu')
     </main>
 
