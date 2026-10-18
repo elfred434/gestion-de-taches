@@ -17,5 +17,9 @@
     <main>
         @yield('contenu')
     </main>
+
+    <footer>
+        <p>Mon application Laravel - Elfred</p>
+    </footer>
 </body>
 </html>

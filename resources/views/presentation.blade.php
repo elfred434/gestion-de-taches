@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Ma présentation</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('titre', 'Ma présentation')
+
+@section('contenu')
     <h1>Bonjour, je suis {{ $prenom }}</h1>
     <p>J'apprends à créer des applications avec Laravel.</p>
     <p>Mon objectif est de :{{ $objectif }}</p>
@@ -25,12 +23,9 @@
             <li>Aucune tâche pour le moment</li>
         @endforelse
     </ul>
-    <a href="{{ route('bibliotheque.index') }}">
-        Voir ma bibliotheque
-    </a>
+    
     <a href="{{ route('profil.show', [
     'prenom'=> $prenom,
     'ville' => 'Calavi']) }}">
     Voir mon profil</a>
-</body>
-</html>
+@endsection
