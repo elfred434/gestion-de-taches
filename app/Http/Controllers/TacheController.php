@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 
 class TacheController extends Controller
 {
-    public function creerTache()
+    public function create()
     {
         return view('taches.creer');
     }
 
-    public function recevoirTache(Request $request)
+    public function store(Request $request)
     {
         /* version simple */
         // $titre = $request->input('titre');
