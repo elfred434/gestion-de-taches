@@ -38,11 +38,20 @@ class TacheController extends Controller
         $tache->titre = $donnees['titre'];
         $tache->description = $donnees['description'] ?? null;
 
-        $tache->save();        
+        $tache->save();    
+        return redirect()->route('taches.index');    
             
-        return view('taches.confirmation', [
-            'titre' => $donnees['titre'],
-            'description' => $donnees['description'] ?? '',
+        // return view('taches.confirmation', [
+        //     'titre' => $donnees['titre'],
+        //     'description' => $donnees['description'] ?? '',
+        // ]);
+    }
+
+     public function index(){
+        $taches = Tache::orderByDesc('id')->get();
+
+        return view('taches.index', [
+            'taches' => $taches,
         ]);
     }
 }

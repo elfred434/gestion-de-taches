@@ -39,7 +39,14 @@ Route::get('/taches/creer', [
     'create',
 ])->name('taches.create');
 
+//recevoir une tâches
 Route::post('/taches', [
     TacheController::class,
     'store',
 ])->name('taches.store');
+
+//afficher les taches
+Route::get('/taches', [
+    TacheController::class,
+    'index',
+])->name('taches.index');
