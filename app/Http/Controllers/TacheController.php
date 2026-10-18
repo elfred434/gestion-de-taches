@@ -36,7 +36,7 @@ class TacheController extends Controller
         ]);
         $tache = new Tache();
         $tache->titre = $donnees['titre'];
-        $tache->description = $donnees['description'] ?? '';
+        $tache->description = $donnees['description'] ?? null;
 
         $tache->save();        
             
