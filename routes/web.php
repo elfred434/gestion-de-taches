@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\http\Controllers\BibliothequeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,26 +33,4 @@ Route::get('/presentation', function() {
     ]);
 });
 
-Route::get('/bibliotheque', function() {
-    return view('bibliotheque', [
-        'prenom' => 'Elfred',
-        'livres' => [
-            [
-                'titre' => 'Le petit prince',
-                'auteur' => 'Antoine de Saint-Exupéry',
-                'lu' => true
-            ],
-            [
-                'titre' => "L'enfant noir",
-                'auteur' => 'Camara Laye',
-                'lu' => false
-            ],
-            [
-                'titre' => "Une si longue lettre",
-                'auteur' => "Mariama Bâ",
-                'lu' => false
-            ],
-
-        ]
-    ]);
-});
+Route::get('/bibliotheque', [BibliothequeController::class, 'index']);
