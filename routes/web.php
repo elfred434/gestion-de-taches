@@ -36,10 +36,10 @@ Route::get('/accueil', [
 
 Route::get('/taches/creer', [
     TacheController::class,
-    'creerTache',
+    'create',
 ])->name('taches.create');
 
 Route::post('/taches', [
     TacheController::class,
-    'recevoirTache',
+    'store',
 ])->name('taches.store');
