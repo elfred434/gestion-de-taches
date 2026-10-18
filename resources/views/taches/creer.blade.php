@@ -8,7 +8,7 @@
         <p>{{ $message }}</p>
     @enderror
     @error('description')
-        <p>{{ $description}}</p>
+        <p>{{ $message}}</p>
     @enderror
 
 <form action="{{ route('taches.store') }}" method="post">
