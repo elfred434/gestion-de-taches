@@ -41,5 +41,5 @@ Route::get('/taches/creer', [
 
 Route::post('/taches', [
     PresentationController::class,
-    'recevoirtache',
+    'recevoirTache',
 ])->name('taches.store');
