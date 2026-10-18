@@ -12,7 +12,13 @@
     <h2>Mes tâches</h2>
     <ul>
         @forelse ($taches as $task )
-            <li>{{ $task }}</li>
+            <li>{{ $task['titre'] }}
+                @if ($task['terminée'])
+                    -- terminée
+                @else 
+                    -- A faire
+                @endif
+            </li>
         @empty
             <li>Aucune tâche pour le moment</li>
         @endforelse
