@@ -3,7 +3,7 @@
 use App\Http\Controllers\BibliothequeController;
 use App\Http\Controllers\PresentationController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\TacheController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -35,11 +35,11 @@ Route::get('/accueil', [
 ])->name('accueil');
 
 Route::get('/taches/creer', [
-    PresentationController::class,
+    TacheController::class,
     'creerTache',
 ])->name('taches.create');
 
 Route::post('/taches', [
-    PresentationController::class,
+    TacheController::class,
     'recevoirTache',
 ])->name('taches.store');
