@@ -56,8 +56,10 @@ class PresentationController extends Controller
 
     public function recevoirTache(Request $request){
         $titre = $request->input('titre');
+        $desc = $request->input('description');
         return view('taches.confirmation', [
             'titre' => $titre,
+            'description' => $desc
         ]);
     }
 }
