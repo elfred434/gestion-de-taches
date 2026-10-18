@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('titre', 'Ma bibiothèque')
+@section('titre', 'Ma bibliothèque')
 
 @section('contenu')
     <h1>La bibliothèque de {{$prenom}}</h1>
