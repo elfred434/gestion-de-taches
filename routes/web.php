@@ -13,7 +13,7 @@ Route::get('/bonjour', function () {
 });
 
 Route::get('/presentation', [PresentationController::class, 'index'])
--> name('presentation.show');
+    ->name('presentation.show');
 
 Route::get('/bibliotheque',
     [BibliothequeController::class,

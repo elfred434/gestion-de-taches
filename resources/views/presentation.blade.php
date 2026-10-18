@@ -29,7 +29,7 @@
         Voir ma bibliotheque
     </a>
     <a href="{{ route('profil.show', [
-    'prenom'=> 'Elfred',
+    'prenom'=> $prenom,
     'ville' => 'Calavi']) }}">
     Voir mon profil</a>
 </body>
