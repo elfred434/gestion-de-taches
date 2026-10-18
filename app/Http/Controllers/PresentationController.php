@@ -8,7 +8,7 @@ class PresentationController extends Controller
 {
     public function index(){
         return view('presentation', [
-        'prenom' => 'Elfred',
+        'prenom' => 'Alice',
         
         'objectif' => 'Créer mon premier gestionnaire de tâcjes',
         'taches' => [
