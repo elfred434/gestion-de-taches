@@ -31,3 +31,27 @@ Route::get('/presentation', function() {
         ]
     ]);
 });
+
+Route::get('/bibliotheque', function() {
+    return view('bibliotheque', [
+        'prenom' => 'Elfred',
+        'livres' => [
+            [
+                'Titre' => 'Le petit prince',
+                'Auteur' => 'Antoine de Saint-Exupéry',
+                'lu' => true
+            ],
+            [
+                'Titre' => "L'enfant noir",
+                'Auteur' => 'Camara Laye',
+                'lu' => false
+            ],
+            [
+                'Titre' => "Une si longue lettre",
+                'Auteur' => "Mariame Bâ",
+                'lu' => false
+            ],
+
+        ]
+    ]);
+});
