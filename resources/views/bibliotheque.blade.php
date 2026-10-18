@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>La bibliothèque de {{$prenom}}</h1>
-    <p>Nombre totale de livres {{ count($livres) }}</p>
+    <p>Nombre total de livres {{ count($livres) }}</p>
     <h2>Liste des livres</h2>
     <ul>
         @forelse ($livres as $livre )
