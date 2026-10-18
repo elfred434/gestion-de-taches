@@ -82,11 +82,11 @@ class PresentationController extends Controller
             'titre.string' => 'Le titre doit être un texte.',
             'titre.min' => 'Le titre doit contenir au moins :min caractères.',
             'titre.max' => 'Le titre ne doit pas dépasser :max caractères .',
-        ],
-        [
             'description.string' => 'La description ne doit contenir que des caractères.',
             'description.max' => 'La description ne doit pas dépasser :max caractères',
         ]);
+        
+            
         return view('taches.confirmation', [
             'titre' => $donnees['titre'],
             'description' => $donnees['description'] ?? '',
