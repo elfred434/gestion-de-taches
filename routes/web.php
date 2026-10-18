@@ -16,3 +16,13 @@ Route::get('/bonjour', function () {
 Route::get('/presentation', [PresentationController::class, 'index']);
 
 Route::get('/bibliotheque', [BibliothequeController::class, 'index']);
+
+Route::get('/salutation/{prenom}', [
+    PresentationController::class,
+    'saluer'
+]);
+
+Route::get('/salutation/{prenom}/{ville}', [
+    PresentationController::class,
+    'profil',
+]);

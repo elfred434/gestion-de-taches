@@ -27,4 +27,16 @@ class PresentationController extends Controller
         ]
     ]);
     }
+
+    public function saluer(string $prenom){
+        return view('salutation', [
+            'prenom' => $prenom
+        ]);
+    }
+    public function profil(string $prenom, string $ville){
+        return view('profil', [
+            'prenom' => $prenom,
+            'ville' => $ville
+        ]);
+    }
 }
