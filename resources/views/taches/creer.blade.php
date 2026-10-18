@@ -7,14 +7,16 @@
     @error('titre')
         <p>{{ $message }}</p>
     @enderror
-
+    @error('description')
+        <p>{{ $description}}</p>
+    @enderror
 
 <form action="{{ route('taches.store') }}" method="post">
     @csrf
     <label for="titre">Titre de la tâche</label>
     <input type="text" id="titre" name="titre" value="{{ old('titre') }}">
     <label for="description">description</label>
-    <textarea name="description" id="description" cols="30" rows="10" value="">{{ old('description') }}</textarea>
+    <textarea name="description" id="description" cols="30" rows="10" >{{ old('description') }}</textarea>
 
     <button type="submit">Envoyez</button>
 </form>

@@ -74,7 +74,7 @@ class PresentationController extends Controller
         // ]);
         /* version avec validation */
         $donnees = $request->validate([
-            'titre' => ['required', 'string', 'min:3', 'max:500'],
+            'titre' => ['required', 'string', 'min:3', 'max:100'],
             'description' => ['nullable', 'string', 'max:1000'],
         ]);
         return view('taches.confirmation', [
