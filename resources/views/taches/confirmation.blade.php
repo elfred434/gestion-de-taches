@@ -7,7 +7,7 @@
 
     <p>Titre: {{ $titre }}</p>
     <p>description: {{$description}}</p>
-    <p>Cette tâches n'est pas encore enregistrée.</p>
+    <p>Cette tâches est  enregistrée.</p>
     <a href="{{ route('taches.create') }}">
         Revenir au formulaire
     </a>

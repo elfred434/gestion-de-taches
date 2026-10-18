@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Tache;
 use Illuminate\Http\Request;
 
 class TacheController extends Controller
@@ -34,7 +34,11 @@ class TacheController extends Controller
             'description.string' => 'La description ne doit contenir que des caractères.',
             'description.max' => 'La description ne doit pas dépasser :max caractères',
         ]);
-        
+        $tache = new Tache();
+        $tache->titre = $donnees['titre'];
+        $tache->description = $donnees['description'] ?? '';
+
+        $tache->save();        
             
         return view('taches.confirmation', [
             'titre' => $donnees['titre'],
