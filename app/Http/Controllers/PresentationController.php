@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+//request
+use Illuminate\Http\Request;
 
 
 class PresentationController extends Controller
@@ -35,6 +36,15 @@ class PresentationController extends Controller
     }
     public function profil(string $prenom, string $ville){
         return view('profil', [
+            'prenom' => $prenom,
+            'ville' => $ville
+        ]);
+    }
+    //methode de récupération du prénom
+    public function accueil(Request $request){
+        $prenom = $request->query('prenom', 'visiteur');
+        $ville = $request->query('ville', 'ville inconnue');
+        return view('accueil', [
             'prenom' => $prenom,
             'ville' => $ville
         ]);

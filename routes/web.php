@@ -28,3 +28,8 @@ Route::get('/profil/{prenom}/{ville}', [
     PresentationController::class,
     'profil',
 ])->name('profil.show');
+
+Route::get('/accueil', [
+    PresentationController::class,
+    'accueil',
+])->name('accueil');
