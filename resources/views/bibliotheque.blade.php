@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>La bibliothèque de {{$prenom}}</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('titre', 'Ma bibiothèque')
+
+@section('contenu')
     <h1>La bibliothèque de {{$prenom}}</h1>
     <p>Nombre total de livres {{ count($livres) }}</p>
     <h2>Liste des livres</h2>
@@ -27,5 +23,4 @@
     <a href="{{ route('presentation.show') }}">
         Retour à ma présentation
     </a>
-</body>
-</html>
+@endsection

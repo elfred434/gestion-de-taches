@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Profil</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('titre', 'Profil')
+
+@section('contenu')
     <h1>Bonjour {{$prenom}}</h1>
-    <p>Vous vivez dans {{ $ville }}</p>
-    <a href="{{ route('presentation.show') }}">
-    voir ma présentation</a>
-</body>
-</html>
+    <p>Vous vivez à {{$ville}}</p>
+@endsection
