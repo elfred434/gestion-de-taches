@@ -24,6 +24,8 @@
             <li>Aucun livre dans ta bibliothèque</li>       
         @endforelse
     </ul>
-    
+    <a href="{{ route('presentation.show') }}">
+        Retour à ma présentation
+    </a>
 </body>
 </html>

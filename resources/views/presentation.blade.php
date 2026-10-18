@@ -25,6 +25,12 @@
             <li>Aucune tâche pour le moment</li>
         @endforelse
     </ul>
-    
+    <a href="{{ route('bibliotheque.index') }}">
+        Voir ma bibliotheque
+    </a>
+    <a href="{{ route('profil.show', [
+    'prenom'=> 'Elfred',
+    'ville' => 'Calavi']) }}">
+    Voir mon profil</a>
 </body>
 </html>

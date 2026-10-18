@@ -9,5 +9,7 @@
 <body>
     <h1>Bonjour {{$prenom}}</h1>
     <p>Vous vivez dans {{ $ville }}</p>
+    <a href="{{ route('presentation.show') }}">
+    voir ma présentation</a>
 </body>
 </html>
