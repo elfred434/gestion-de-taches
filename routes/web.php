@@ -22,7 +22,7 @@ Route::get('/salutation/{prenom}', [
     'saluer'
 ]);
 
-Route::get('/salutation/{prenom}/{ville}', [
+Route::get('/profil/{prenom}/{ville}', [
     PresentationController::class,
     'profil',
 ]);
