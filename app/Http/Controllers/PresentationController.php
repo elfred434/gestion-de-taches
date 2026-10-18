@@ -49,4 +49,15 @@ class PresentationController extends Controller
             'ville' => $ville
         ]);
     }
+
+    public function creerTache(){
+        return view('taches.creer');
+    }
+
+    public function recevoirTache(Request $request){
+        $titre = $request->input('titre');
+        return view('taches.confirmation', [
+            'titre' => $titre,
+        ]);
+    }
 }

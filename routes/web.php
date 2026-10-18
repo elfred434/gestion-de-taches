@@ -33,3 +33,13 @@ Route::get('/accueil', [
     PresentationController::class,
     'accueil',
 ])->name('accueil');
+
+Route::get('/taches/creer', [
+    PresentationController::class,
+    'creerTache',
+])->name('taches.create');
+
+Route::get('/taches', [
+    PresentationController::class,
+    'recevoirtache',
+])->name('taches.store');
