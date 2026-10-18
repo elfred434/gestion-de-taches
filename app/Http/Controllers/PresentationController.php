@@ -64,12 +64,22 @@ class PresentationController extends Controller
 
     public function recevoirTache(Request $request)
     {
-        $titre = $request->input('titre');
-        $description = $request->input('description');
+        /* version simple */
+        // $titre = $request->input('titre');
+        // $description = $request->input('description');
 
+        // return view('taches.confirmation', [
+        //     'titre' => $titre,
+        //     'description' => $description,
+        // ]);
+        /* version avec validation */
+        $donnees = $request->validate([
+            'titre' => ['required', 'string', 'min:3', 'max:500'],
+            'description' => ['nullable', 'string', 'max:1000'],
+        ]);
         return view('taches.confirmation', [
-            'titre' => $titre,
-            'description' => $description,
+            'titre' => $donnees['titre'],
+            'description' => $donnees['description'] ?? '',
         ]);
     }
 }

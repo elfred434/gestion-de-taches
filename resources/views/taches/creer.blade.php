@@ -4,14 +4,19 @@
 
 @section('contenu')
     <h1>Proposer une tâche</h1>
-    <form action="{{ route('taches.store') }}" method="post">
-        @csrf
-        <label for="titre">Titre de la tâche</label>
-        <input type="text" id="titre" name="titre">
-        <label for="description">description</label>
-        <textarea name="description" id="description" cols="30" rows="10"></textarea>
+    @error('titre')
+        <p>{{ $message }}</p>
+    @enderror
 
-        <button type="submit">Envoyez</button>
-    </form>
+
+<form action="{{ route('taches.store') }}" method="post">
+    @csrf
+    <label for="titre">Titre de la tâche</label>
+    <input type="text" id="titre" name="titre" value="{{ old('titre') }}">
+    <label for="description">description</label>
+    <textarea name="description" id="description" cols="30" rows="10" value="">{{ old('description') }}</textarea>
+
+    <button type="submit">Envoyez</button>
+</form>
 
 @endsection
