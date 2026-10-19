@@ -5,15 +5,19 @@
 @section('contenu')
     <h1>Mes Taches enregistrées</h1>
 
-    <p>Nombre de tâches  {{count($taches)}}</p>
+    <p>Nombre de tâches {{ count($taches) }}</p>
 
     <a href="{{ route('taches.create') }}"> Créer une tâche</a>
     <ul>
-        @forelse ($taches as $tache )
+        @forelse ($taches as $tache)
             <li>
-                <h2>{{$tache->titre}}</h2>
+                <h2>
+                    <a href="{{ route('taches.show', ['tache' => $tache->id]) }}">
+                        {{ $tache->titre }}
+                    </a>
+                </h2>
                 @if ($tache->description)
-                    <p>{{$tache->description}}</p>
+                    <p>{{ $tache->description }}</p>
                 @endif
                 @if ($tache->terminee)
                     <p>Terminéé</p>

@@ -57,4 +57,10 @@ class TacheController extends Controller
             'taches' => $taches,
         ]);
     }
+
+    public function show(Tache $tache){
+        return view('taches.show', [
+            'tache' => $tache,
+        ]);
+    }
 }

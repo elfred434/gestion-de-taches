@@ -50,3 +50,9 @@ Route::get('/taches', [
     TacheController::class,
     'index',
 ])->name('taches.index');
+
+//afficher la tache via son id
+Route::get('/taches/{tache}', [
+    TacheController::class,
+    'show',
+])->name('taches.show');
