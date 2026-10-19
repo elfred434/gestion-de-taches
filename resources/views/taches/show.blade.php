@@ -23,4 +23,10 @@
     <a href="{{ route('taches.edit', ['tache' => $tache->id]) }}">
         modifer cette tâche
     </a>
+    <form action="{{ route('taches.destroy', ['tache' => $tache->id]) }}" method="post">
+        @csrf
+        @method('DELETE')
+
+        <button type="submit">Supprimer définitevement cette tâche</button>
+    </form>
 @endsection

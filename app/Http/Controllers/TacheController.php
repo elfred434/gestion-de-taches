@@ -90,4 +90,11 @@ class TacheController extends Controller
         ->route('taches.show', ['tache' => $tache->id])
         -> with('succes', 'la tâche a bien été modifié');
     }
+
+    public function destroy(Tache $tache){
+        $tache->delete();
+        return redirect()
+        ->route('taches.index')
+        ->with('succes', 'La tâche a été supprimé');
+    }
 }

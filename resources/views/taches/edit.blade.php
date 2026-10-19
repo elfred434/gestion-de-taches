@@ -22,13 +22,11 @@
 
         <div>
             <label for="description">Description</label>
-            <textarea type="text" id="description" name="description" rows="5">
-        {{ old('description', $tache->description) }}
-        </textarea>
+           <textarea id="description" name="description" rows="5">{{ old('description', $tache->description) }}</textarea>
         </div>
         <button type="submit">Enregistrez les modifications</button>
     </form>
-    <p>L'enregistrement des modifications sera ajouté à la prochaine étape</p>
+    
 
     <a href="{{ route('taches.show', ['tache' => $tache->id]) }}">
         Annuler et revenir au détail

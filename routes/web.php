@@ -67,3 +67,7 @@ Route::patch('taches/{tache}', [
     TacheController::class,
     'update',
 ])->name('taches.update');
+Route::delete('taches/{tache}', [
+    TacheController::class,
+    'destroy',
+])->name('taches.destroy');
