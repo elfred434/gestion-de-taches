@@ -62,3 +62,8 @@ Route::get('taches/{tache}/modifier', [
     TacheController::class,
     'edit',
 ])->name('taches.edit');
+
+Route::patch('taches/{tache}', [
+    TacheController::class,
+    'update',
+])->name('taches.update');
