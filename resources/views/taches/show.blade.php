@@ -20,4 +20,7 @@
     <a href="{{ route('taches.index') }}">
         Retour aux tâches
     </a>
+    <a href="{{ route('taches.edit', ['tache' => $tache->id]) }}">
+        modifer cette tâche
+    </a>
 @endsection

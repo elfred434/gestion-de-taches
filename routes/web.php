@@ -56,3 +56,9 @@ Route::get('/taches/{tache}', [
     TacheController::class,
     'show',
 ])->name('taches.show');
+
+//modifer une tâche via son id
+Route::get('taches/{tache}/modifier', [
+    TacheController::class,
+    'edit',
+])->name('taches.edit');
