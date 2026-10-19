@@ -24,6 +24,11 @@
             <label for="description">Description</label>
            <textarea id="description" name="description" rows="5">{{ old('description', $tache->description) }}</textarea>
         </div>
+        <div>
+            <input type="checkbox" name="terminee" id="terminee"
+            value="1" @checked( old('terminee' , $tache->terminee))>
+            <label for="terminee">Cette tâche est terminée ?</label>
+        </div>
         <button type="submit">Enregistrez les modifications</button>
     </form>
     

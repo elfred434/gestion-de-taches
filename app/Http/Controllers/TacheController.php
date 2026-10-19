@@ -72,6 +72,7 @@ class TacheController extends Controller
         $donnees = $request->validate([
             'titre' => ['required', 'string', 'min:3', 'max:100'],
             'description' => ['nullable', 'string', 'max:1000'],
+            'terminee' => ['boolean'],
         ], 
         [
             'titre.required' => 'le titre est obligatoire',
@@ -79,11 +80,12 @@ class TacheController extends Controller
             'titre.min' => 'le titre doit au mins contenir :min caractères',
             'titre.max' => 'le titre ne doit dépasser :max caractères',
             'description.string' => 'la description doit être compsé de caractères',
-            'description.max' => 'la description ne doit dépassé :max caractères'
+            'description.max' => 'la description ne doit dépassé :max caractères',
+            'terminee.boolean' => 'l\'état de la tâche est invalide. ',
         ]);
         $tache->titre = $donnees['titre'];
         $tache->description = $donnees['description'] ?? null;
-
+        $tache->terminee = $request->boolean('terminee');
         $tache->save();
 
         return redirect()
