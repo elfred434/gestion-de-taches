@@ -4,6 +4,8 @@ use App\Http\Controllers\BibliothequeController;
 use App\Http\Controllers\PresentationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TacheController;
+use App\Http\Controllers\InscriptionController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -71,3 +73,15 @@ Route::delete('taches/{tache}', [
     TacheController::class,
     'destroy',
 ])->name('taches.destroy');
+
+//inscription
+Route::get('/inscription', [
+    InscriptionController::class,
+    'create',
+])->name('register');
+
+Route::post('/inscription', [
+    InscriptionController::class,
+    'store',
+])->name('register.store');
+

@@ -11,6 +11,7 @@
         <a href="{{ route('presentation.show') }}">Présentation</a>
         <a href="{{ route('bibliotheque.index') }}">Bibliothèque</a>
         <a href="{{ route('taches.index') }}">Mes tâches</a>
+        <a href="{{ route('register') }}">Inscription</a>
     </nav>
 
     <hr>

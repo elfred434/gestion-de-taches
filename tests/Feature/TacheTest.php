@@ -10,6 +10,7 @@ class TacheTest extends TestCase
 {
     use RefreshDatabase;
 
+    // Vérifie que la liste vide est accessible et affiche son message.
     public function test_la_liste_vide_est_accessible(): void
     {
         $reponse = $this->get(route('taches.index'));
@@ -20,6 +21,7 @@ class TacheTest extends TestCase
         );
     }
 
+    // Vérifie que le formulaire de création est accessible et utilise la bonne vue.
     public function test_le_formulare_de_création_est_accessible(): void
     {
         $reponse = $this->get(route('taches.create'));
@@ -29,6 +31,7 @@ class TacheTest extends TestCase
 
     }
 
+    // Vérifie qu'une tâche valide est enregistrée puis que l'application redirige vers la liste.
     public function test_une_tâche_valide_est_enregistree(): void
     {
         // $this->post(...)	Envoie une requête POST avec les données indiquées
@@ -53,6 +56,7 @@ class TacheTest extends TestCase
 
     }
 
+    // Vérifie qu'une tâche invalide produit une erreur de validation et n'est pas enregistrée.
     public function test_une_tâche_invalide_est_non_enregistree(): void
     {
         $reponse = $this->post(route('taches.store'), [
@@ -66,6 +70,7 @@ class TacheTest extends TestCase
 
     }
 
+    // Vérifie qu'une tâche existante peut être modifiée sans créer de ligne supplémentaire.
     public function test_une_tache_peut_être_modifiee(): void
     {
 
@@ -104,6 +109,7 @@ class TacheTest extends TestCase
 
     }
 
+    // Vérifie qu'une modification invalide est refusée et conserve les données d'origine.
     public function test_une_tache_invalide_ne_peut_être_modifiee(): void
     {
         $tache = new Tache;
@@ -133,6 +139,7 @@ class TacheTest extends TestCase
         $this->assertDatabaseCount('taches', 1);
     }
 
+    // Vérifie qu'une tâche peut être supprimée sans supprimer les autres.
     public function test_supprimer_une_tache_conserve_les_autres(): void
     {
         $tacheASupprimer = new Tache;
@@ -173,6 +180,7 @@ class TacheTest extends TestCase
         )->assertNotFound();
     }
 
+    // Crée et retourne une tâche de test avec son état terminé ou à faire.
     private function creerTache(string $titre, bool $terminee = false): Tache
     {
         $tache = new Tache;
@@ -183,6 +191,7 @@ class TacheTest extends TestCase
         return $tache;
     }
 
+    // Vérifie que le filtre « à faire » exclut les tâches terminées.
     public function test_le_filtre_a_faire_exclut_les_taches_terminees(): void
     {
         $aFaire = $this->creerTache('Apprendre Laravel');
@@ -199,6 +208,7 @@ class TacheTest extends TestCase
             && $taches->getCollection()->modelKeys() === [$aFaire->id];
         });
     }
+    // Vérifie que le filtre « terminées » exclut les tâches à faire.
     public function test_le_filtre_terminee_exclut_les_taches_non_terminees(): void
     {
         $terminees = $this->creerTache('Testez le filtre terminee', true);
@@ -216,6 +226,7 @@ class TacheTest extends TestCase
         });
     }
 
+    // Vérifie qu'une recherche sans résultat renvoie une collection vide et affiche le message adapté.
     public function test_une_recherche_sans_resultat_affiche_un_message_vide(): void
     {
         $this->creerTache('Apprendre PHP');
@@ -234,6 +245,7 @@ class TacheTest extends TestCase
         $reponse->assertSee('Aucune tâche ne correspond à ces critères.');
     }
 
+    // Vérifie que plusieurs résultats de recherche sont affichés par identifiant décroissant.
     public function test_une_recherche_affiche_plusieurs_resultats_par_identifiant_decroissant(): void
     {
         $apprendreLaravel = $this->creerTache('Apprendre Laravel');
@@ -254,6 +266,7 @@ class TacheTest extends TestCase
         });
     }
 
+    // Vérifie que la recherche et le filtre d'état s'appliquent ensemble.
     public function test_la_recherche_et_le_filtre_detat_peuvent_etre_combines(): void
     {
         $apprendreLaravel = $this->creerTache('Apprendre Laravel');
@@ -272,6 +285,7 @@ class TacheTest extends TestCase
         });
     }
 
+    // Vérifie le nombre de tâches sur chaque page et l'absence de chevauchement.
     public function test_la_pagination_affiche_les_taches_sur_deux_pages_sans_chevauchement(): void
     {
         for ($numero = 1; $numero <= 8; $numero++) {
@@ -305,6 +319,7 @@ class TacheTest extends TestCase
         $this->assertSame([], array_intersect($identifiantsPage1, $identifiantsPage2));
     }
 
+    // Vérifie que la pagination conserve les filtres et la recherche dans le lien suivant.
     public function test_la_pagination_conserve_les_criteres_de_recherche(): void
     {
         for ($numero = 1; $numero <= 6; $numero++) {
