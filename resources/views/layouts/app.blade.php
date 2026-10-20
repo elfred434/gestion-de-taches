@@ -5,13 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>@yield('titre', 'Mon application')</title>
+    <style>
+        .navbar{
+            display: flex;
+            align-items: center
+        }
+
+        .right{
+            margin-left: auto
+        }
+    </style>
 </head>
 <body>
-    <nav>
+    <nav class="navbar">
         <a href="{{ route('presentation.show') }}">Présentation</a>
         <a href="{{ route('bibliotheque.index') }}">Bibliothèque</a>
         <a href="{{ route('taches.index') }}">Mes tâches</a>
         <a href="{{ route('register') }}">Inscription</a>
+
+        <div class="right">
+            @auth
+                <span>Connecté : {{auth()->user()->name}}</span>
+            @endauth
+
+            @guest
+                <a href="{{ route('login') }}"> Se connecter</a>
+            @endguest
+        </div>
     </nav>
 
     <hr>

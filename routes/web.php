@@ -5,7 +5,7 @@ use App\Http\Controllers\PresentationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TacheController;
 use App\Http\Controllers\InscriptionController;
-
+use App\Http\Controllers\ConnexionController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -84,4 +84,19 @@ Route::post('/inscription', [
     InscriptionController::class,
     'store',
 ])->name('register.store');
+
+//connexion
+Route::get('/connexion', [
+    ConnexionController::class,
+    'create',
+])->name('login');
+
+Route::post('/connexion', [
+    ConnexionController::class,
+    'store',
+])->middleware('throttle:5,1')->name('login.store');
+
+
+
+
 
