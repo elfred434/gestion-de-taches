@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::table('taches', function (Blueprint $table) {
             $table->foreignId('user_id')
-            ->nullable()
-            ->constrained('users')
-            ->restrictOnDelete();
+            ->nullable();
+            
         });
     }
 
