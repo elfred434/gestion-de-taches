@@ -18,7 +18,7 @@ class AccesTacheTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_une_tache_vers_store_avec_un_titre_valide(): void {
+    public function test_un_visiteur_ne_peut_pas_creer_de_tache(): void {
          $reponse = $this->post(route('taches.store'), [
             'titre' => 'Apprendre les tests Laravel',
             'description' => 'Vérifier la création automatique.',
