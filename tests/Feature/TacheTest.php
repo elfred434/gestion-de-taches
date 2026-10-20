@@ -166,10 +166,137 @@ class TacheTest extends TestCase
 
         $this->assertDatabaseCount('taches', 1);
 
-        //vérifie que les détails de la tâche supprimé renvoie un status
+        // vérifie que les détails de la tâche supprimé renvoie un status
 
         $this->get(
             route('taches.show', ['tache' => $tacheASupprimer->id])
         )->assertNotFound();
+    }
+
+    private function creerTache(string $titre, bool $terminee = false): Tache
+    {
+        $tache = new Tache;
+        $tache->titre = $titre;
+        $tache->terminee = $terminee;
+        $tache->save();
+
+        return $tache;
+    }
+
+    public function test_le_filtre_a_faire_exclut_les_taches_terminees(): void
+    {
+        $aFaire = $this->creerTache('Apprendre Laravel');
+        $this->creerTache('Réviser Laravel', true);
+
+        $reponse = $this->get(route('taches.index', [
+            'etat' => 'a_faire',
+        ]));
+
+        $reponse->assertOk();
+
+        $reponse->assertViewHas('taches', function ($taches) use ($aFaire) {
+            return $taches->total() === 1
+            && $taches->getCollection()->modelKeys() === [$aFaire->id];
+        });
+    }
+    public function test_le_filtre_terminee_exclut_les_taches_non_terminees(): void
+    {
+        $terminees = $this->creerTache('Testez le filtre terminee', true);
+        $this->creerTache('Voir le filtre');
+
+        $reponse = $this->get(route('taches.index', [
+            'etat' => 'terminees',
+        ]));
+
+        $reponse->assertOk();
+
+        $reponse->assertViewHas('taches', function ($taches) use ($terminees) {
+            return $taches->total() === 1
+            && $taches->getCollection()->modelKeys() === [$terminees->id];
+        });
+    }
+
+    public function test_une_recherche_sans_resultat_affiche_un_message_vide(): void
+    {
+        $this->creerTache('Apprendre PHP');
+
+        $reponse = $this->get(route('taches.index', [
+            'q' => 'Laravel',
+        ]));
+        //réponse 200
+        $reponse->assertOk();
+        //total de 0 ; collection vide ;
+        $reponse->assertViewHas('taches', function ($taches) {
+            return $taches->total() === 0
+                && $taches->getCollection()->isEmpty();
+        });
+        //message
+        $reponse->assertSee('Aucune tâche ne correspond à ces critères.');
+    }
+
+    public function test_la_pagination_affiche_les_taches_sur_deux_pages_sans_chevauchement(): void
+    {
+        for ($numero = 1; $numero <= 8; $numero++) {
+            $this->creerTache("Tâche pagination $numero");
+        }
+
+        $reponsePage1 = $this->get(route('taches.index'));
+        $reponsePage1->assertOk();
+
+        $identifiantsPage1 = [];
+        $reponsePage1->assertViewHas('taches', function ($taches) use (&$identifiantsPage1) {
+            $identifiantsPage1 = $taches->getCollection()->modelKeys();
+
+            return $taches->count() === 5
+                && $taches->total() === 8
+                && $taches->currentPage() === 1;
+        });
+
+        $reponsePage2 = $this->get(route('taches.index', ['page' => 2]));
+        $reponsePage2->assertOk();
+
+        $identifiantsPage2 = [];
+        $reponsePage2->assertViewHas('taches', function ($taches) use (&$identifiantsPage2) {
+            $identifiantsPage2 = $taches->getCollection()->modelKeys();
+
+            return $taches->count() === 3
+                && $taches->total() === 8
+                && $taches->currentPage() === 2;
+        });
+
+        $this->assertSame([], array_intersect($identifiantsPage1, $identifiantsPage2));
+    }
+
+    public function test_la_pagination_conserve_les_criteres_de_recherche(): void
+    {
+        for ($numero = 1; $numero <= 6; $numero++) {
+            $this->creerTache("Tâche Laravel $numero");
+        }
+        $this->creerTache('Tâche Laravel terminée', true);
+        $this->creerTache('Tâche PHP');
+
+        $reponse = $this->get(route('taches.index', [
+            'etat' => 'a_faire',
+            'q' => 'Laravel',
+        ]));
+
+        $reponse->assertOk();
+        $reponse->assertViewHas('taches', function ($taches) {
+            return $taches->total() === 6
+                && $taches->count() === 5;
+        });
+        $reponse->assertViewHas('taches', function ($taches) {
+            $url = $taches->nextPageUrl();
+
+            if ($url === null) {
+                return false;
+            }
+
+            parse_str(parse_url($url, PHP_URL_QUERY) ?? '', $parametres);
+
+            return ($parametres['etat'] ?? null) === 'a_faire'
+                && ($parametres['q'] ?? null) === 'Laravel'
+                && ($parametres['page'] ?? null) === '2';
+        });
     }
 }
