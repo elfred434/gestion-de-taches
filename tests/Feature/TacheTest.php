@@ -234,6 +234,44 @@ class TacheTest extends TestCase
         $reponse->assertSee('Aucune tâche ne correspond à ces critères.');
     }
 
+    public function test_une_recherche_affiche_plusieurs_resultats_par_identifiant_decroissant(): void
+    {
+        $apprendreLaravel = $this->creerTache('Apprendre Laravel');
+        $this->creerTache('Apprendre PHP');
+        $reviserLaravel = $this->creerTache('Réviser Laravel');
+
+        $reponse = $this->get(route('taches.index', [
+            'q' => 'Laravel',
+        ]));
+
+        $reponse->assertOk();
+        $reponse->assertViewHas('taches', function ($taches) use ($reviserLaravel, $apprendreLaravel) {
+            return $taches->total() === 2
+                && $taches->getCollection()->modelKeys() === [
+                    $reviserLaravel->id,
+                    $apprendreLaravel->id,
+                ];
+        });
+    }
+
+    public function test_la_recherche_et_le_filtre_detat_peuvent_etre_combines(): void
+    {
+        $apprendreLaravel = $this->creerTache('Apprendre Laravel');
+        $this->creerTache('Réviser Laravel', true);
+        $this->creerTache('Apprendre PHP');
+
+        $reponse = $this->get(route('taches.index', [
+            'etat' => 'a_faire',
+            'q' => 'Laravel',
+        ]));
+
+        $reponse->assertOk();
+        $reponse->assertViewHas('taches', function ($taches) use ($apprendreLaravel) {
+            return $taches->total() === 1
+                && $taches->getCollection()->modelKeys() === [$apprendreLaravel->id];
+        });
+    }
+
     public function test_la_pagination_affiche_les_taches_sur_deux_pages_sans_chevauchement(): void
     {
         for ($numero = 1; $numero <= 8; $numero++) {
