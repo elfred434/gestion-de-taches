@@ -33,7 +33,7 @@
         <div>
             <label for="password">Mot de passe</label>
             <input type="password" name="password" id="password"
-            value="{{ old('password') }}"
+            
             autocomplete="new-password">
         </div>
 

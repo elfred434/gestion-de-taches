@@ -25,11 +25,11 @@ class InscriptionController extends Controller
             'email.required' => 'le champs email est requis',
             'email.email' => 'les information à l\'intérieur du champ email ne respecte par le format d\'email',
             'email.max' => 'le champs email ne doit pas excédez les :max caractères',
-            'email.unique:users,email' => 'L\email existe déjà ',
+            'email.unique' => 'L\email existe déjà ',
             'password.required' => 'le mot de passe est requis',
             'password.string' => 'le mot de passe doit contenir des caractères',
             'password.min' => 'le mot de passe doit au moins contenir 12 caractères',
-            'password.confirm' => 'le mot doit être confirmé',
+            'password.confirmed' => 'le mot doit être confirmé',
         ]);
 
         $utilisateur = new User();
