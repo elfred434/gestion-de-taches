@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\BibliothequeController;
-use App\Http\Controllers\PresentationController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TacheController;
-use App\Http\Controllers\InscriptionController;
 use App\Http\Controllers\ConnexionController;
+use App\Http\Controllers\InscriptionController;
+use App\Http\Controllers\PresentationController;
+use App\Http\Controllers\TacheController;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -36,45 +37,49 @@ Route::get('/accueil', [
     'accueil',
 ])->name('accueil');
 
-Route::get('/taches/creer', [
-    TacheController::class,
-    'create',
-])->name('taches.create');
+Route::middleware('auth')->group(function () {
 
-//recevoir une tâches
-Route::post('/taches', [
-    TacheController::class,
-    'store',
-])->name('taches.store');
+    Route::get('/taches/creer', [
+        TacheController::class,
+        'create',
+    ])->name('taches.create');
 
-//afficher les taches
-Route::get('/taches', [
-    TacheController::class,
-    'index',
-])->name('taches.index');
+    // recevoir une tâches
+    Route::post('/taches', [
+        TacheController::class,
+        'store',
+    ])->name('taches.store');
 
-//afficher la tache via son id
-Route::get('/taches/{tache}', [
-    TacheController::class,
-    'show',
-])->name('taches.show');
+    // afficher les taches
+    Route::get('/taches', [
+        TacheController::class,
+        'index',
+    ])->name('taches.index');
 
-//modifer une tâche via son id
-Route::get('taches/{tache}/modifier', [
-    TacheController::class,
-    'edit',
-])->name('taches.edit');
+    // afficher la tache via son id
+    Route::get('/taches/{tache}', [
+        TacheController::class,
+        'show',
+    ])->name('taches.show');
 
-Route::patch('taches/{tache}', [
-    TacheController::class,
-    'update',
-])->name('taches.update');
-Route::delete('taches/{tache}', [
-    TacheController::class,
-    'destroy',
-])->name('taches.destroy');
+    // modifer une tâche via son id
+    Route::get('taches/{tache}/modifier', [
+        TacheController::class,
+        'edit',
+    ])->name('taches.edit');
 
-//inscription
+    Route::patch('taches/{tache}', [
+        TacheController::class,
+        'update',
+    ])->name('taches.update');
+    Route::delete('taches/{tache}', [
+        TacheController::class,
+        'destroy',
+    ])->name('taches.destroy');
+
+});
+
+// inscription
 Route::get('/inscription', [
     InscriptionController::class,
     'create',
@@ -85,7 +90,7 @@ Route::post('/inscription', [
     'store',
 ])->name('register.store');
 
-//connexion
+// connexion
 Route::get('/connexion', [
     ConnexionController::class,
     'create',
@@ -96,13 +101,8 @@ Route::post('/connexion', [
     'store',
 ])->middleware('throttle:5,1')->name('login.store');
 
-//déconnexion
+// déconnexion
 Route::post('/deconnexion', [
     ConnexionController::class,
-    'destroy'
+    'destroy',
 ])->middleware('auth')->name('logout');
-
-
-
-
-

@@ -3,12 +3,23 @@
 namespace Tests\Feature;
 
 use App\Models\Tache;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use Tests\TestCase;
+
 
 class TacheTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $utilisateur = User::factory()->create();
+        $this->actingAs($utilisateur);
+    }
 
     // Vérifie que la liste vide est accessible et affiche son message.
     public function test_la_liste_vide_est_accessible(): void
