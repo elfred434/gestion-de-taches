@@ -19,7 +19,7 @@
             <option value="a_faire" @selected($etat === 'a_faire')>
                 A faire
             </option>
-            <option value="terminees" @selected($etat === 'termineed')>
+            <option value="terminees" @selected($etat === 'terminees')>
                 Terminées
             </option>
         </select>

@@ -62,7 +62,7 @@ class TacheController extends Controller
 
         if ($etat === 'a_faire') {
             $requete->where('terminee', false);
-        } elseif ($etat === 'terminee'){
+        } elseif ($etat === 'terminees'){
             $requete->where('terminee', true);
         }
 
