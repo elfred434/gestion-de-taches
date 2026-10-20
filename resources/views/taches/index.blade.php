@@ -5,7 +5,9 @@
 @section('contenu')
     <h1>Mes Taches enregistrées</h1>
 
-    <p>Nombre de tâches affichées {{ count($taches) }}</p>
+    <p>Nombre de tâches affichées sur cette page  {{ count($taches) }},
+        sur {{ $taches->total() }} résultat(s) </p>
+    
 
     <a href="{{ route('taches.create') }}"> Créer une tâche</a>
 
@@ -57,4 +59,5 @@
             <li>Aucune tâche ne correspond à ces critères.</li>
         @endforelse
     </ul>
+    {{ $taches->links() }}
 @endsection

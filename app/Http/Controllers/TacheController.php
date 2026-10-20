@@ -71,8 +71,13 @@ class TacheController extends Controller
         if ($q !== '') {
             $requete->where('titre', 'like', '%' . $q . '%');
         }
-
-        $taches = $requete->orderByDesc('id')->get();
+        
+        // $taches = $requete->orderByDesc('id')->get(); simple 
+        //avec pagination
+        $taches = $requete
+        -> orderByDesc('id')
+        ->paginate(5)
+        ->withQueryString();
 
         return view('taches.index', [
             'taches' => $taches,
