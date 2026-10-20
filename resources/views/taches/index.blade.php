@@ -24,7 +24,16 @@
             </option>
         </select>
 
+        <label for="q"> Rechercher par titre</label>
+
+        <input type="search" id="q" name="q" value="{{ $q }}">
+
+        @error('q')
+            <p>{{ $message }}</p>
+        @enderror
+
         <button type="submit">Filtrez</button>
+        <a href="{{ route('taches.index') }}">Réinitialiser</a>
     </form>
     <ul>
         @forelse ($taches as $tache)
@@ -42,9 +51,10 @@
                 @else
                     <p>A faire</p>
                 @endif
+
             </li>
         @empty
-            <li>Aucune tâche enregistrée</li>
+            <li>Aucune tâche ne correspond à ces critères.</li>
         @endforelse
     </ul>
 @endsection

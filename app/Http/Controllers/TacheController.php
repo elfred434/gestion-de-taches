@@ -53,10 +53,12 @@ class TacheController extends Controller
      public function index(Request $request){
 
         $donnees = $request->validate([
-            'etat' => ['sometimes', 'in:toutes,a_faire,terminees']
+            'etat' => ['sometimes', 'in:toutes,a_faire,terminees'],
+            'q' => ['nullable', 'string', 'max:100'],
         ]);
 
         $etat = $donnees['etat'] ?? 'toutes';
+        $q = $donnees['q'] ?? '';
 
         $requete = Tache::query();
 
@@ -66,11 +68,16 @@ class TacheController extends Controller
             $requete->where('terminee', true);
         }
 
+        if ($q !== '') {
+            $requete->where('titre', 'like', '%' . $q . '%');
+        }
+
         $taches = $requete->orderByDesc('id')->get();
 
         return view('taches.index', [
             'taches' => $taches,
             'etat' => $etat,
+            'q' => $q,
         ]);
     }
 
