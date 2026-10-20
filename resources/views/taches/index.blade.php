@@ -5,7 +5,7 @@
 @section('contenu')
     <h1>Mes Taches enregistrées</h1>
 
-    <p>Nombre de tâches {{ count($taches) }}</p>
+    <p>Nombre de tâches affichées {{ count($taches) }}</p>
 
     <a href="{{ route('taches.create') }}"> Créer une tâche</a>
 
@@ -32,7 +32,7 @@
             <p>{{ $message }}</p>
         @enderror
 
-        <button type="submit">Filtrez</button>
+        <button type="submit">Rechercher</button>
         <a href="{{ route('taches.index') }}">Réinitialiser</a>
     </form>
     <ul>
