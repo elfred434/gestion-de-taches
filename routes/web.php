@@ -96,6 +96,12 @@ Route::post('/connexion', [
     'store',
 ])->middleware('throttle:5,1')->name('login.store');
 
+//déconnexion
+Route::post('/deconnexion', [
+    ConnexionController::class,
+    'destroy'
+])->middleware('auth')->name('logout');
+
 
 
 

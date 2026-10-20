@@ -33,4 +33,15 @@ class ConnexionController extends Controller
         ->route('taches.index')
         ->with('succes', 'Tu es maintenant connecté');
     }
+
+    public function destroy(Request $request) {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()
+        ->route('login')
+        ->with('succes', 'Tu es maintenant déconnecté.');
+    }
 }

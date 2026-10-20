@@ -27,9 +27,16 @@
         <div class="right">
             @auth
                 <span>Connecté : {{auth()->user()->name}}</span>
+
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+
+                    <button type="submit">Se déconnecter</button>
+                </form>
             @endauth
 
             @guest
+            <a href="{{ route('register') }}">Inscription</a>
                 <a href="{{ route('login') }}"> Se connecter</a>
             @endguest
         </div>
