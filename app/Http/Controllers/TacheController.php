@@ -50,11 +50,27 @@ class TacheController extends Controller
         // ]);
     }
 
-     public function index(){
-        $taches = Tache::orderByDesc('id')->get();
+     public function index(Request $request){
+
+        $donnees = $request->validate([
+            'etat' => ['sometimes', 'in:toutes,a_faire,terminees']
+        ]);
+
+        $etat = $donnees['etat'] ?? 'toutes';
+
+        $requete = Tache::query();
+
+        if ($etat === 'a_faire') {
+            $requete->where('terminee', false);
+        } elseif ($etat === 'terminee'){
+            $requete->where('terminee', true);
+        }
+
+        $taches = $requete->orderByDesc('id')->get();
 
         return view('taches.index', [
             'taches' => $taches,
+            'etat' => $etat,
         ]);
     }
 

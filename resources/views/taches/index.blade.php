@@ -8,6 +8,24 @@
     <p>Nombre de tâches {{ count($taches) }}</p>
 
     <a href="{{ route('taches.create') }}"> Créer une tâche</a>
+
+    <form action="{{ route('taches.index') }}" method="get">
+        <label for="etat">Afficher</label>
+
+        <select name="etat" id="etat">
+            <option value="toutes" @selected($etat === 'toutes')>
+                Toutes les tâches
+            </option>
+            <option value="a_faire" @selected($etat === 'a_faire')>
+                A faire
+            </option>
+            <option value="terminees" @selected($etat === 'termineed')>
+                Terminées
+            </option>
+        </select>
+
+        <button type="submit">Filtrez</button>
+    </form>
     <ul>
         @forelse ($taches as $tache)
             <li>
