@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('taches', function (Blueprint $table) {
             $table->foreignId('user_id')
             ->nullable()
-            ->contrained('users')
+            ->constrained('users')
             ->restrictOnDelete();
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('taches', function (Blueprint $table) {
-            $table->dropContrainedForeignId('user_id');
+            $table->dropConstrainedForeignId('user_id');
         });
     }
 };
