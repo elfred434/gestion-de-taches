@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
+use App\Models\Tache;
 use Tests\TestCase;
 
 class TacheTest extends TestCase
@@ -58,5 +58,72 @@ class TacheTest extends TestCase
 
         $this->assertDatabaseCount('taches', 0);
 
+    }
+
+    public function test_une_tache_peut_être_modifiee(): void {
+
+    //Péparez une tâche dans la base de test
+        $tache = new Tache();
+        $tache->titre = 'Ancien titre';
+        $tache->description= 'Ancienne description';
+        $tache->terminee= false;
+        $tache->save();
+        
+        //envoyer la modification
+        $reponse = $this->patch(
+            route('taches.update', ['tache' => $tache->id]),
+            [
+                'titre' => 'Nouveau titre',
+                'description' => 'Nouvelle description',
+                'terminee' => 1,
+            ]
+        );
+
+        //vérifier la destination
+        $reponse->assertRedirect(
+            route('taches.show', ['tache' => $tache->id])
+        );
+
+        //Vérifier que la ligne initiale est modifiée.
+        $this->assertDatabaseHas('taches', [
+            'id' => $tache->id,
+            'titre' => 'Nouveau titre',
+            'description' => 'Nouvelle description',
+            'terminee' => 1,
+        ]);
+
+        //Vérifier que aucune ligne supplémentaire n'a été ajouté
+        $this->assertDatabaseCount('taches', 1);
+
+
+    }
+
+    public function test_une_tache_invalide_ne_peut_être_modifiee(): void {
+        $tache = new Tache();
+        $tache->titre = 'Titre à conserver';
+        $tache->description= 'test description';
+        $tache->terminee= false;
+        $tache->save();
+
+        $reponse = $this->patch(
+            route('taches.update', ['tache' => $tache->id]),
+            [
+                'titre' => 'ab',
+                'description' => 'Nouvelle description',
+                'terminee' => 1,
+            ]
+        );
+        
+        
+        $reponse->assertSessionHasErrors('titre');
+
+        $this->assertDatabaseHas('taches', [
+            'id' => $tache->id,
+            'titre' => 'Titre à conserver',
+            'description' => 'test description',
+            'terminee' => 0,
+        ]);
+
+        $this->assertDatabaseCount('taches', 1);
     }
 }
