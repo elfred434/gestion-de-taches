@@ -24,7 +24,7 @@
         <div>
             <label for="password"> Mot de passe</label>
             <input type="password" name="password" id="password"
-            autocomplete="new-password">
+            autocomplete="current-password">
             @error('password')
             <p>{{ $message }}</p>
         @enderror

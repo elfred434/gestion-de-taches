@@ -8,7 +8,8 @@
     <style>
         .navbar{
             display: flex;
-            align-items: center
+            align-items: center;
+            gap: 16px;
         }
 
         .right{
