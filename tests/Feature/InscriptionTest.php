@@ -52,7 +52,8 @@ class InscriptionTest extends TestCase
         assertGuest()	L’inscription n’a pas connecté automatiquement le compte     */
     }
 
-    public function test_email_déjà_utilisé(): void {
+    public function test_email_déjà_utilisé(): void
+    {
         $utilisateurExistant = User::factory()->create([
             'email' => 'deja-pris@exemple.test',
         ]);
@@ -64,22 +65,22 @@ class InscriptionTest extends TestCase
             'email' => 'deja-pris@exemple.test',
             'password' => $motDePasse,
             'password_confirmation' => $motDePasse,
-        ]); 
+        ]);
         $reponse->assertSessionHasErrors('email');
 
         $this->assertDatabaseCount('users', 1);
-        $utilisateurExistant = User::where(
-            'email',
-            'deja-pris@exemple.test'
-        )->firstOrFail();
+        $this->assertDatabaseHas('users', [
+            'id' => $utilisateurExistant->id,
+            'name' => $utilisateurExistant->name,
+            'email' => $utilisateurExistant->email,
+        ]);
 
         $this->assertGuest();
 
-
-
     }
 
-    public function test_confirmation_differente(): void {
+    public function test_confirmation_differente(): void
+    {
         $motDePasse = 'MotDePasseDeTest123!';
         $differentpassword = 'MotDePasseDeTest1234!';
         $reponse = $this->post(route('register.store'), [
@@ -87,15 +88,12 @@ class InscriptionTest extends TestCase
             'email' => 'elfred434@exemple.test',
             'password' => $motDePasse,
             'password_confirmation' => $differentpassword,
-        ]); 
+        ]);
 
         $reponse->assertSessionHasErrors('password');
         $this->assertDatabaseCount('users', 0);
 
         $this->assertGuest();
 
-
     }
 }
-
-
