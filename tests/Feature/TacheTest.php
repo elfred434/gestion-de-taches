@@ -409,6 +409,7 @@ class TacheTest extends TestCase
            
 
             return $taches->count() === 1
+            && $taches->total() === 1
             && $taches->getCollection()->modelKeys() === [$maTache->id];
         });
         $this->assertDatabaseCount('taches', 2);
