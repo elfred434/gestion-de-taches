@@ -37,7 +37,7 @@ class TacheController extends Controller
         $tache = new Tache();
         $tache->titre = $donnees['titre'];
         $tache->description = $donnees['description'] ?? null;
-
+        $tache->user_id = $request->user()->id;
         $tache->save();    
         return redirect()
         ->route('taches.index')

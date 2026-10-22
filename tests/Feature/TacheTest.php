@@ -61,6 +61,7 @@ class TacheTest extends TestCase
             'titre' => 'Apprendre les tests Laravel',
             'description' => 'Vérifier la création automatique.',
             'terminee' => 0,
+            'user_id' => auth()->id(),
         ]);
         // assertDatabaseCount(...)	Vérifie le nombre de lignes de la table
         $this->assertDatabaseCount('taches', 1);
@@ -362,5 +363,30 @@ class TacheTest extends TestCase
                 && ($parametres['q'] ?? null) === 'Laravel'
                 && ($parametres['page'] ?? null) === '2';
         });
+    }
+
+    public function test_la_creation_ignore_un_faux_propretaire(): void {
+        $autreUtilisateur = User::factory()->create();
+
+        $utilisateurConnecteId = auth()->id();
+         $reponse = $this->post(route('taches.store'), [
+        'titre' => 'Tester le propriétaire',
+        'description' => 'Vérifier que le propriétaire est défini par le contrôleur.',
+        'user_id' => $autreUtilisateur->id,
+    ]);
+
+    $reponse->assertRedirect(route('taches.index'));
+
+    $this->assertDatabaseHas('taches', [
+        'titre' => 'Tester le propriétaire',
+        'user_id' => $utilisateurConnecteId,
+    ]);
+
+    $this->assertDatabaseMissing('taches', [
+        'titre' => 'Tester le propriétaire',
+        'user_id' => $autreUtilisateur->id,
+    ]);
+
+    $this->assertDatabaseCount('taches', 1);
     }
 }
