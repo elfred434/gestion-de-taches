@@ -32,6 +32,7 @@ class User extends Authenticatable
     }
     public function taches(): HasMany{
         return $this->hasMany(Tache::class);
-        //hasMany plusieurs tâche peuvent appartenir à plusieurs client
+       // Un utilisateur possède plusieurs tâches.
+// Chaque tâche appartient à un seul utilisateur.
     }
 }

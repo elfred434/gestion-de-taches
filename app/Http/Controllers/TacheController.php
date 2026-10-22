@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 use App\Models\Tache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\StoreTacheRequest;
 class TacheController extends Controller
+
 {
     public function create()
     {
         return view('taches.creer');
     }
 
-    public function store(Request $request)
+    public function store(StoreTacheRequest $request)
     {
         /* version simple */
         // $titre = $request->input('titre');
@@ -22,18 +24,7 @@ class TacheController extends Controller
         //     'description' => $description,
         // ]);
         /* version avec validation */
-        $donnees = $request->validate([
-            'titre' => ['required', 'string', 'min:3', 'max:100'],
-            'description' => ['nullable', 'string', 'max:1000'],
-        ],
-        [
-            'titre.required' => 'Le titre est obligatoire.',
-            'titre.string' => 'Le titre doit être des caractères.',
-            'titre.min' => 'Le titre doit contenir au moins :min caractères.',
-            'titre.max' => 'Le titre ne doit pas dépasser :max caractères .',
-            'description.string' => 'La description ne doit contenir que des caractères.',
-            'description.max' => 'La description ne doit pas dépasser :max caractères',
-        ]);
+        $donnees = $request->validated();
         $tache = new Tache();
         $tache->titre = $donnees['titre'];
         $tache->description = $donnees['description'] ?? null;
