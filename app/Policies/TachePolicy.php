@@ -37,7 +37,7 @@ class TachePolicy
      */
     public function update(User $user, Tache $tache): bool
     {
-        return $tache->user_id === $user->id;;
+        return $tache->user_id === $user->id;
     }
 
     /**
@@ -45,7 +45,7 @@ class TachePolicy
      */
     public function delete(User $user, Tache $tache): bool
     {
-        return $tache->user_id === $user->id;;
+        return $tache->user_id === $user->id;
     }
 
     /**
