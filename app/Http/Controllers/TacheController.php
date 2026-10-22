@@ -37,8 +37,7 @@ class TacheController extends Controller
         $tache = new Tache();
         $tache->titre = $donnees['titre'];
         $tache->description = $donnees['description'] ?? null;
-        $tache->user_id = $request->user()->id;
-        $tache->save();    
+        $request->user()->taches()->save($tache);   
         return redirect()
         ->route('taches.index')
         //ajout du message de confirmation
@@ -62,7 +61,10 @@ class TacheController extends Controller
         
 
         //Afficher les tâches en fonction de l'users
-        $requete = Tache::where('user_id', $request->user()->id);
+        /* Ancienne function
+        $requete = Tache::where('user_id', $request->user()->id); */
+
+        $requete = $request->user()->taches();
         /*
         Afficher toutes les tâche
         $requete = Tache::query();

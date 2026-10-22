@@ -497,4 +497,22 @@ class TacheTest extends TestCase
 
         $reponse->assertOk();
     }
+
+    public function test_les_relations_relient_la_tache_a_son_proprietaire(): void
+    {
+        $utilisateur = auth()->user();
+        $maTache = $this->creerTache('Ma tâche personnelle');
+
+        $autreUtilisateur = User::factory()->create();
+        $this->creerTachePourUtilisateur($autreUtilisateur, 'Tâche de l’autre utilisateur');
+
+        $this->assertSame(
+            [$maTache->id],
+            $utilisateur->taches()->get()->modelKeys()
+        );
+
+        $this->assertTrue(
+            $maTache->user->is($utilisateur)
+        );
+    }
 }
