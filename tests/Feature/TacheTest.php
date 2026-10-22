@@ -470,6 +470,29 @@ class TacheTest extends TestCase
         $this->assertDatabaseCount('taches', 1);
     }
 
+    public function test_un_utilisateur_est_refuse_avant_la_validation_pour_modifier_la_tache_dun_autre(): void
+    {
+        $autreUtilisateur = User::factory()->create();
+        $tache = $this->creerTachePourUtilisateur($autreUtilisateur, 'Tâche initiale');
+
+        $reponse = $this->patch(route('taches.update', ['tache' => $tache->id]), [
+            'titre' => 'ab',
+            'description' => 'Description modifiée',
+            'terminee' => 1,
+        ]);
+
+        $reponse->assertForbidden();
+
+        $this->assertDatabaseHas('taches', [
+            'id' => $tache->id,
+            'titre' => 'Tâche initiale',
+            'description' => 'Description initiale',
+            'terminee' => 0,
+            'user_id' => $autreUtilisateur->id,
+        ]);
+        $this->assertDatabaseCount('taches', 1);
+    }
+
     public function test_un_utilisateur_ne_peut_pas_supprimer_la_tache_dun_autre(): void
     {
         $autreUtilisateur = User::factory()->create();

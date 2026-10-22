@@ -5,6 +5,7 @@ use App\Models\Tache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreTacheRequest;
+use App\Http\Requests\UpdateTacheRequest;
 class TacheController extends Controller
 
 {
@@ -96,22 +97,9 @@ class TacheController extends Controller
             'tache' => $tache,
         ]);
     }
-    public function update(Request $request, Tache $tache) {
-        Gate::authorize('update', $tache);
-        $donnees = $request->validate([
-            'titre' => ['required', 'string', 'min:3', 'max:100'],
-            'description' => ['nullable', 'string', 'max:1000'],
-            'terminee' => ['boolean'],
-        ], 
-        [
-            'titre.required' => 'le titre est obligatoire',
-            'titre.string' => 'le titre doit être composé de caractères',
-            'titre.min' => 'le titre doit au mins contenir :min caractères',
-            'titre.max' => 'le titre ne doit dépasser :max caractères',
-            'description.string' => 'la description doit être compsé de caractères',
-            'description.max' => 'la description ne doit dépassé :max caractères',
-            'terminee.boolean' => 'l\'état de la tâche est invalide. ',
-        ]);
+    public function update(UpdateTacheRequest $request, Tache $tache) {
+        
+        $donnees = $request->validated();
         $tache->titre = $donnees['titre'];
         $tache->description = $donnees['description'] ?? null;
         $tache->terminee = $request->boolean('terminee');
