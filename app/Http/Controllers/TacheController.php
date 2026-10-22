@@ -59,9 +59,14 @@ class TacheController extends Controller
 
         $etat = $donnees['etat'] ?? 'toutes';
         $q = $donnees['q'] ?? '';
+        
 
+        //Afficher les tâches en fonction de l'users
+        $requete = Tache::where('user_id', $request->user()->id);
+        /*
+        Afficher toutes les tâche
         $requete = Tache::query();
-
+        */
         if ($etat === 'a_faire') {
             $requete->where('terminee', false);
         } elseif ($etat === 'terminees'){

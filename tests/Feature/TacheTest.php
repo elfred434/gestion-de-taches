@@ -198,6 +198,7 @@ class TacheTest extends TestCase
         $tache = new Tache;
         $tache->titre = $titre;
         $tache->terminee = $terminee;
+        $tache->user_id = auth()->id();
         $tache->save();
 
         return $tache;
@@ -388,5 +389,28 @@ class TacheTest extends TestCase
     ]);
 
     $this->assertDatabaseCount('taches', 1);
+    }
+
+    public function test_la_liste_affiche_uniquement_mes_taches(): void{
+        $maTache = $this->creerTache('Ma tâche personnelle');
+
+        //créé un autre utilisateur
+        $autreUtilisateur = User::factory()->create();
+        
+        $autreTache = new Tache();
+        $autreTache->titre = 'Tache de l\'autre utilisateur';
+        $autreTache->user_id = $autreUtilisateur->id;
+        $autreTache->terminee = false;
+        $autreTache->save();
+
+        $reponse = $this->get(route('taches.index'));
+        $reponse->assertOk();
+        $reponse->assertViewHas('taches', function ($taches) use ($maTache){
+           
+
+            return $taches->count() === 1
+            && $taches->getCollection()->modelKeys() === [$maTache->id];
+        });
+        $this->assertDatabaseCount('taches', 2);
     }
 }
