@@ -91,6 +91,7 @@ class TacheTest extends TestCase
         $tache->titre = 'Ancien titre';
         $tache->description = 'Ancienne description';
         $tache->terminee = false;
+        $tache->user_id = auth()->id();
         $tache->save();
 
         // envoyer la modification
@@ -128,6 +129,7 @@ class TacheTest extends TestCase
         $tache->titre = 'Titre à conserver';
         $tache->description = 'test description';
         $tache->terminee = false;
+        $tache->user_id = auth()->id();
         $tache->save();
 
         $reponse = $this->patch(
@@ -157,11 +159,13 @@ class TacheTest extends TestCase
         $tacheASupprimer = new Tache;
         $tacheASupprimer->titre = 'Tâche à supprimer';
         $tacheASupprimer->terminee = false;
+        $tacheASupprimer->user_id = auth()->id();
         $tacheASupprimer->save();
 
         $tacheAConserver = new Tache;
         $tacheAConserver->titre = 'Tâche à conserver';
         $tacheAConserver->terminee = false;
+        $tacheAConserver->user_id = auth()->id();
         $tacheAConserver->save();
 
         $reponse = $this->delete(
@@ -199,6 +203,18 @@ class TacheTest extends TestCase
         $tache->titre = $titre;
         $tache->terminee = $terminee;
         $tache->user_id = auth()->id();
+        $tache->save();
+
+        return $tache;
+    }
+
+    private function creerTachePourUtilisateur(User $utilisateur, string $titre): Tache
+    {
+        $tache = new Tache;
+        $tache->titre = $titre;
+        $tache->description = 'Description initiale';
+        $tache->terminee = false;
+        $tache->user_id = $utilisateur->id;
         $tache->save();
 
         return $tache;
@@ -397,11 +413,7 @@ class TacheTest extends TestCase
         //créé un autre utilisateur
         $autreUtilisateur = User::factory()->create();
         
-        $autreTache = new Tache();
-        $autreTache->titre = 'Tache de l\'autre utilisateur';
-        $autreTache->user_id = $autreUtilisateur->id;
-        $autreTache->terminee = false;
-        $autreTache->save();
+        $this->creerTachePourUtilisateur($autreUtilisateur, 'Tache de l\'autre utilisateur');
 
         $reponse = $this->get(route('taches.index'));
         $reponse->assertOk();
@@ -413,5 +425,76 @@ class TacheTest extends TestCase
             && $taches->getCollection()->modelKeys() === [$maTache->id];
         });
         $this->assertDatabaseCount('taches', 2);
+    }
+
+    public function test_un_utilisateur_ne_peut_pas_voir_le_detail_dune_tache_dun_autre(): void
+    {
+        $autreUtilisateur = User::factory()->create();
+        $tache = $this->creerTachePourUtilisateur($autreUtilisateur, 'Tâche privée');
+
+        $reponse = $this->get(route('taches.show', ['tache' => $tache->id]));
+
+        $reponse->assertForbidden();
+    }
+
+    public function test_un_utilisateur_ne_peut_pas_ouvrir_le_formulaire_de_modification_dune_tache_dun_autre(): void
+    {
+        $autreUtilisateur = User::factory()->create();
+        $tache = $this->creerTachePourUtilisateur($autreUtilisateur, 'Tâche privée');
+
+        $reponse = $this->get(route('taches.edit', ['tache' => $tache->id]));
+
+        $reponse->assertForbidden();
+    }
+
+    public function test_un_utilisateur_ne_peut_pas_modifier_la_tache_dun_autre(): void
+    {
+        $autreUtilisateur = User::factory()->create();
+        $tache = $this->creerTachePourUtilisateur($autreUtilisateur, 'Tâche initiale');
+
+        $reponse = $this->patch(route('taches.update', ['tache' => $tache->id]), [
+            'titre' => 'Titre modifié par un autre utilisateur',
+            'description' => 'Description modifiée',
+            'terminee' => 1,
+        ]);
+
+        $reponse->assertForbidden();
+
+        $this->assertDatabaseHas('taches', [
+            'id' => $tache->id,
+            'titre' => 'Tâche initiale',
+            'description' => 'Description initiale',
+            'terminee' => 0,
+            'user_id' => $autreUtilisateur->id,
+        ]);
+        $this->assertDatabaseCount('taches', 1);
+    }
+
+    public function test_un_utilisateur_ne_peut_pas_supprimer_la_tache_dun_autre(): void
+    {
+        $autreUtilisateur = User::factory()->create();
+        $tache = $this->creerTachePourUtilisateur($autreUtilisateur, 'Tâche à conserver');
+
+        $reponse = $this->delete(route('taches.destroy', ['tache' => $tache->id]));
+
+        $reponse->assertForbidden();
+
+        $this->assertDatabaseHas('taches', [
+            'id' => $tache->id,
+            'titre' => 'Tâche à conserver',
+            'description' => 'Description initiale',
+            'terminee' => 0,
+            'user_id' => $autreUtilisateur->id,
+        ]);
+        $this->assertDatabaseCount('taches', 1);
+    }
+
+    public function test_un_proprietaire_peut_voir_le_detail_de_sa_tache(): void
+    {
+        $tache = $this->creerTache('Ma tâche personnelle');
+
+        $reponse = $this->get(route('taches.show', ['tache' => $tache->id]));
+
+        $reponse->assertOk();
     }
 }

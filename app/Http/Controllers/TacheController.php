@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Tache;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Gate;
 class TacheController extends Controller
 {
     public function create()
@@ -92,16 +92,19 @@ class TacheController extends Controller
     }
 
     public function show(Tache $tache){
+        Gate::authorize('view', $tache);
         return view('taches.show', [
             'tache' => $tache,
         ]);
     }
     public function edit(Tache $tache){
+        Gate::authorize('update', $tache);
         return view('taches.edit', [
             'tache' => $tache,
         ]);
     }
     public function update(Request $request, Tache $tache) {
+        Gate::authorize('update', $tache);
         $donnees = $request->validate([
             'titre' => ['required', 'string', 'min:3', 'max:100'],
             'description' => ['nullable', 'string', 'max:1000'],
@@ -127,6 +130,7 @@ class TacheController extends Controller
     }
 
     public function destroy(Tache $tache){
+        Gate::authorize('delete', $tache);
         $tache->delete();
         return redirect()
         ->route('taches.index')
