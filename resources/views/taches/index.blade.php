@@ -57,7 +57,7 @@
                 @if ($tache->priorite === 'basse')
                 <p>Priorité basse</p>
                 @elseif ($tache->priorite === 'normale')
-                <p>Prorité normale</p>
+                <p>Priorité normale</p>
                 @else
                 <p>Priorité haute</p>
                     
