@@ -15,6 +15,9 @@
         @error('description')
             <p>{{ $message }}</p>
         @enderror
+        @error('priorite')
+            <p>{{ $message }}</p>
+        @enderror
         <div>
             <label for="titre">Titre</label>
             <input type="text" id="titre" name="titre" value="{{ old('titre', $tache->titre) }}">
@@ -34,6 +37,20 @@
             @error('terminee')
                 <p>{{ $message}}</p>
             @enderror
+        </div>
+        <div>
+            <label for="priorite">Priorité</label>
+            <select name="priorite" id="priorite">
+                <option value="basse" @selected(old('priorite', $tache->priorite) === 'basse')>
+                    Basse
+                </option>
+                <option value="normale" @selected(old('priorite', $tache->priorite) === 'normale')>
+                    Normale
+                </option>
+                <option value="haute" @selected(old('priorite', $tache->priorite) === 'haute')>
+                    Haute
+                </option>
+            </select>
         </div>
         <button type="submit">Enregistrez les modifications</button>
     </form>

@@ -25,6 +25,7 @@ class StoreTacheRequest extends FormRequest
         return [
             'titre' => ['required', 'string', 'min:3', 'max:100'],
             'description' => ['nullable', 'string', 'max:1000'],
+            'priorite' => ['sometimes', 'required', 'in:basse,normale,haute'],
         ];
     }
 

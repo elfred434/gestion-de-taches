@@ -16,6 +16,16 @@
              À faire
        @endif
     </p>
+    <p>
+        @if ($tache->priorite === 'basse')
+                <p>Priorité basse</p>
+                @elseif ($tache->priorite === 'normale')
+                <p>Priorité normale</p>
+                @else
+                <p>Priorité haute</p>
+                    
+                @endif
+    </p>
 
     <a href="{{ route('taches.index') }}">
         Retour aux tâches

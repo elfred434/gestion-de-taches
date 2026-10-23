@@ -54,6 +54,15 @@
                     <p>A faire</p>
                 @endif
 
+                @if ($tache->priorite === 'basse')
+                <p>Priorité basse</p>
+                @elseif ($tache->priorite === 'normale')
+                <p>Prorité normale</p>
+                @else
+                <p>Priorité haute</p>
+                    
+                @endif
+
             </li>
         @empty
             <li>Aucune tâche ne correspond à ces critères.</li>

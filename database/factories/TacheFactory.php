@@ -22,6 +22,7 @@ class TacheFactory extends Factory
             'description' => fake()->paragraph(),
             'terminee' => false,
             'user_id' => User::factory(),
+            'priorite' => 'normale',
 
             /*
              fake: génère des données fictives

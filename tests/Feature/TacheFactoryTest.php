@@ -28,6 +28,7 @@ class TacheFactoryTest extends TestCase
         //vérifier que toutes les tâches appartiennent a l'users
         foreach ($taches as $tache) {
             $this->assertSame($utilisateur->id , $tache->user_id);
+            $this->assertSame('normale', $tache->priorite);
         }
         
     }

@@ -29,6 +29,7 @@ class TacheController extends Controller
         $tache = new Tache();
         $tache->titre = $donnees['titre'];
         $tache->description = $donnees['description'] ?? null;
+        $tache->priorite = $donnees['priorite'] ?? 'normale';
         $request->user()->taches()->save($tache);   
         return redirect()
         ->route('taches.index')
@@ -99,6 +100,7 @@ class TacheController extends Controller
         $donnees = $request->validated();
         $tache->titre = $donnees['titre'];
         $tache->description = $donnees['description'] ?? null;
+        $tache->priorite = $donnees['priorite'] ?? 'normale';
         $tache->terminee = $request->boolean('terminee');
         $tache->save();
 

@@ -29,6 +29,7 @@ class UpdateTacheRequest extends FormRequest
             'titre' => ['required', 'string', 'min:3', 'max:100'],
             'description' => ['nullable', 'string', 'max:1000'],
             'terminee' => ['boolean'],
+            'priorite' => ['sometimes', 'required', 'in:basse,normale,haute'],
         ];
     }
     public function messages(): array

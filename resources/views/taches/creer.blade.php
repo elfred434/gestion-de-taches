@@ -10,6 +10,9 @@
     @error('description')
         <p>{{ $message}}</p>
     @enderror
+    @error('priorite')
+            <p>{{ $message }}</p>
+        @enderror
 
 <form action="{{ route('taches.store') }}" method="post">
     @csrf
@@ -17,7 +20,20 @@
     <input type="text" id="titre" name="titre" value="{{ old('titre') }}">
     <label for="description">description</label>
     <textarea name="description" id="description" cols="30" rows="10" >{{ old('description') }}</textarea>
-
+    <div>
+            <label for="priorite">Priorité</label>
+            <select name="priorite" id="priorite">
+            <option value="" @selected( old('priorite', 'normale') === 'basse' )>
+             Basse
+            </option>
+            <option value="" @selected(  old('priorite', 'normale') === 'normale'  )>
+                Normale
+            </option>
+            <option value="" @selected(old('priorite', 'normale' ) === 'haute')>
+                Haute
+            </option>
+        </select>
+        </div>
     <button type="submit">Envoyez</button>
 </form>
 

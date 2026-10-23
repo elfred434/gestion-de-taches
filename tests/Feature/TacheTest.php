@@ -538,4 +538,129 @@ class TacheTest extends TestCase
             $maTache->user->is($utilisateur)
         );
     }
+
+    public function test_une_tache_creee_sans_priorite_recoit_la_priorite_normale(): void
+    {
+        $reponse = $this->post(route('taches.store'), [
+            'titre' => 'Préparer une présentation',
+            'description' => 'Contenu de la présentation.',
+        ]);
+
+        $reponse->assertRedirect(route('taches.index'));
+
+        $this->assertDatabaseHas('taches', [
+            'titre' => 'Préparer une présentation',
+            'priorite' => 'normale',
+            'user_id' => auth()->id(),
+        ]);
+    }
+
+    public function test_une_tache_peut_etre_creee_avec_une_priorite_haute(): void
+    {
+        $reponse = $this->post(route('taches.store'), [
+            'titre' => 'Finaliser le projet',
+            'description' => 'À terminer rapidement.',
+            'priorite' => 'haute',
+        ]);
+
+        $reponse->assertRedirect(route('taches.index'));
+
+        $this->assertDatabaseHas('taches', [
+            'titre' => 'Finaliser le projet',
+            'priorite' => 'haute',
+            'user_id' => auth()->id(),
+        ]);
+    }
+
+    public function test_une_priorite_invalide_est_refusee_a_la_creation(): void
+    {
+        $reponse = $this->post(route('taches.store'), [
+            'titre' => 'Préparer une présentation',
+            'priorite' => 'urgente',
+        ]);
+
+        $reponse->assertSessionHasErrors('priorite');
+        $this->assertDatabaseCount('taches', 0);
+    }
+
+    public function test_la_priorite_dune_tache_peut_etre_modifiee(): void
+    {
+        $tache = Tache::factory()
+            ->for(auth()->user())
+            ->create(['priorite' => 'basse']);
+
+        $reponse = $this->patch(route('taches.update', ['tache' => $tache->id]), [
+            'titre' => $tache->titre,
+            'description' => $tache->description,
+            'terminee' => 0,
+            'priorite' => 'haute',
+        ]);
+
+        $reponse->assertRedirect(route('taches.show', ['tache' => $tache->id]));
+
+        $this->assertDatabaseHas('taches', [
+            'id' => $tache->id,
+            'priorite' => 'haute',
+        ]);
+    }
+
+    public function test_une_priorite_invalide_est_refusee_a_la_modification(): void
+    {
+        $tache = Tache::factory()
+            ->for(auth()->user())
+            ->create(['priorite' => 'basse']);
+
+        $reponse = $this->patch(route('taches.update', ['tache' => $tache->id]), [
+            'titre' => $tache->titre,
+            'description' => $tache->description,
+            'terminee' => 0,
+            'priorite' => 'urgente',
+        ]);
+
+        $reponse->assertSessionHasErrors('priorite');
+
+        $this->assertDatabaseHas('taches', [
+            'id' => $tache->id,
+            'priorite' => 'basse',
+        ]);
+    }
+
+    public function test_un_utilisateur_ne_peut_pas_modifier_la_priorite_de_la_tache_dun_autre(): void
+    {
+        $autreUtilisateur = User::factory()->create();
+
+        $tache = Tache::factory()
+            ->for($autreUtilisateur)
+            ->create(['priorite' => 'basse']);
+
+        $reponse = $this->patch(route('taches.update', ['tache' => $tache->id]), [
+            'titre' => $tache->titre,
+            'description' => $tache->description,
+            'terminee' => 0,
+            'priorite' => 'haute',
+        ]);
+
+        $reponse->assertForbidden();
+
+        $this->assertDatabaseHas('taches', [
+            'id' => $tache->id,
+            'priorite' => 'basse',
+            'user_id' => $autreUtilisateur->id,
+        ]);
+    }
+
+    public function test_la_liste_et_le_detail_affichent_la_priorite(): void
+    {
+        $tache = Tache::factory()
+            ->for(auth()->user())
+            ->create(['priorite' => 'basse']);
+
+        $this->get(route('taches.index'))
+            ->assertOk()
+            ->assertSee('Priorité basse');
+
+        $this->get(route('taches.show', ['tache' => $tache->id]))
+            ->assertOk()
+            ->assertSee('Priorité basse');
+    }
 }
