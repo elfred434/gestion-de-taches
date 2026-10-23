@@ -23,13 +23,13 @@
     <div>
             <label for="priorite">Priorité</label>
             <select name="priorite" id="priorite">
-            <option value="" @selected( old('priorite', 'normale') === 'basse' )>
+            <option value="basse" @selected( old('priorite', 'normale') === 'basse' )>
              Basse
             </option>
-            <option value="" @selected(  old('priorite', 'normale') === 'normale'  )>
+            <option value="Normale" @selected(  old('priorite', 'normale') === 'normale'  )>
                 Normale
             </option>
-            <option value="" @selected(old('priorite', 'normale' ) === 'haute')>
+            <option value="Haute" @selected(old('priorite', 'normale' ) === 'haute')>
                 Haute
             </option>
         </select>

@@ -663,4 +663,30 @@ class TacheTest extends TestCase
             ->assertOk()
             ->assertSee('Priorité basse');
     }
+
+    public function test_modifier_une_tache_sans_priorite_conserve_sa_priorite_actuelle(): void
+    {
+        $tache = Tache::factory()
+            ->for(auth()->user())
+            ->create(['priorite' => 'haute']);
+
+        $reponse = $this->patch(route('taches.update', [
+            'tache' => $tache->id,
+        ]), [
+            'titre' => 'Titre modifié',
+            'description' => 'Description modifiée',
+            'terminee' => 0,
+            // Pas de champ « priorite »
+        ]);
+
+        $reponse->assertRedirect(
+            route('taches.show', ['tache' => $tache->id])
+        );
+
+        $this->assertDatabaseHas('taches', [
+            'id' => $tache->id,
+            'titre' => 'Titre modifié',
+            'priorite' => 'haute',
+        ]);
+    }
 }

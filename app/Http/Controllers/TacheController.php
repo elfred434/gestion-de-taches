@@ -100,7 +100,7 @@ class TacheController extends Controller
         $donnees = $request->validated();
         $tache->titre = $donnees['titre'];
         $tache->description = $donnees['description'] ?? null;
-        $tache->priorite = $donnees['priorite'] ?? 'normale';
+        $tache->priorite = $donnees['priorite'] ?? $tache->priorite;
         $tache->terminee = $request->boolean('terminee');
         $tache->save();
 
