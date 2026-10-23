@@ -26,10 +26,10 @@
             <option value="basse" @selected( old('priorite', 'normale') === 'basse' )>
              Basse
             </option>
-            <option value="Normale" @selected(  old('priorite', 'normale') === 'normale'  )>
+            <option value="normale" @selected(  old('priorite', 'normale') === 'normale'  )>
                 Normale
             </option>
-            <option value="Haute" @selected(old('priorite', 'normale' ) === 'haute')>
+            <option value="haute" @selected(old('priorite', 'normale' ) === 'haute')>
                 Haute
             </option>
         </select>
