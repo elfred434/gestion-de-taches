@@ -25,7 +25,7 @@
                 <p>Priorité haute</p>
                     
                 @endif
-    </d>
+    </div>
 
     <a href="{{ route('taches.index') }}">
         Retour aux tâches
