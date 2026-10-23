@@ -28,4 +28,65 @@ PS C:\projet\gestion-taches> php artisan migrate:status
   2026_10_20_224631_add_user_foreign_key_to_taches_table .......... [4] Ran  
   2026_10_23_102216_add_priorite_to_taches_table .................. Pending  
 
+PS C:\projet\gestion-taches> New-Item -ItemType Directory -Force "C:\projet\sauvegardes"
+
+    Répertoire : C:\projet
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d----          23/10/2026    20:25                sauvegardes
+
+PS C:\projet\gestion-taches> php artisan tinker        
+Psy Shell v0.12.24 (PHP 8.5.12 — cli) by Justin Hileman
+New PHP manual is available (latest: 3.1.4). Update with `doc --update-manual`
+> $sauvegarde = 'C:/projet/sauvegardes/gestion-taches-avant-priorite-'.date('
+Ymd-His').'.sqlite';                                                         
+
+= "C:/projet/sauvegardes/gestion-taches-avant-priorite-20261023-192602.sqlite"
+
+>                                                                            
+> DB::statement("VACUUM INTO '$sauvegarde'");                                
+
+= true
+
+> file_exists($sauvegarde) && filesize($sauvegarde) > 0;                     
+
+= true
+
+> exit                                                                       
+
+   INFO  Goodbye.
+
+PS C:\projet\gestion-taches> php artisan migrate
+
+   INFO  Running migrations.  
+
+  2026_10_23_102216_add_priorite_to_taches_table ............ 155.93ms DONE
+
+PS C:\projet\gestion-taches> php artisan migrate:status
+
+  Migration name ........................................... Batch / Status  
+  0001_01_01_000000_create_users_table ............................ [1] Ran  
+  0001_01_01_000001_create_cache_table ............................ [1] Ran  
+  0001_01_01_000002_create_jobs_table ............................. [1] Ran  
+  2026_10_18_200036_create_taches_table ........................... [2] Ran  
+  2026_10_20_182607_add_user_id_to_taches_table ................... [3] Ran  
+  2026_10_20_224631_add_user_foreign_key_to_taches_table .......... [4] Ran  
+  2026_10_23_102216_add_priorite_to_taches_table .................. [5] Ran  
+
+PS C:\projet\gestion-taches> php artisan tinker        
+Psy Shell v0.12.24 (PHP 8.5.12 — cli) by Justin Hileman
+New PHP manual is available (latest: 3.1.4). Update with `doc --update-manual`
+> App\Models\Tache::count();                                                 
+
+= 8
+
+> App\Models\Tache::where('priorite', 'normale')->count();                   
+
+= 8
+
+> exit                                                                       
+
+   INFO  Goodbye.
+
 PS C:\projet\gestion-taches> 
