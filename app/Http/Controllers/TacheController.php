@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreTacheRequest;
 use App\Http\Requests\UpdateTacheRequest;
+use App\Http\Requests\IndexTacheRequest;
 class TacheController extends Controller
 
 {
@@ -41,12 +42,9 @@ class TacheController extends Controller
         // ]);
     }
 
-     public function index(Request $request){
+     public function index(IndexTacheRequest $request){
 
-        $donnees = $request->validate([
-            'etat' => ['sometimes', 'in:toutes,a_faire,terminees'],
-            'q' => ['nullable', 'string', 'max:100'],
-        ]);
+        $donnees = $request->validated();
 
         $etat = $donnees['etat'] ?? 'toutes';
         $q = $donnees['q'] ?? '';
