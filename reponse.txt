@@ -1,15 +1,64 @@
-1. Nous allons utiliser une migrations  et valuer par défaut normale <?php
+PS C:\projet\gestion-taches> php artisan test
 
+   PASS  Tests\Unit\ExampleTest
+  ✓ that true is true
 
-php artisan make:migration add_priorite_to_taches_table --table=taches
+   PASS  Tests\Feature\AccesTacheTest
+  ✓ un visiteur est redirige vers la connexion                                                                   0.70s
+  ✓ un visiteur ne peut pas creer de tache                                                                       0.02s
 
-2. Validation dans StoreTacheRequest et UpdateTacheRequest
-'priorite' => ['sometimes', 'required', 'in:basse,normale,haute'],
+   PASS  Tests\Feature\AuthentificationTest
+  ✓ un utilisateur peut se connecter                                                                             0.18s
+  ✓ un utilisateur ne peut se connecter avec un mauvais mot de passe                                             0.24s
+  ✓ la déconnexion d un utilisateur                                                                              0.03s
 
-3. store() et update()
-Créer une tâche sans envoyer de priorité : elle est enregistrée avec normale.
-Créer une tâche avec haute : la valeur haute est enregistrée.
-Modifier une tâche de basse à haute : la nouvelle priorité est conservée.
-Envoyer une valeur invalide, par exemple urgente : la validation échoue et la tâche n’est pas modifiée.
-Sécurité : un autre utilisateur tente de modifier la priorité d’une tâche qui ne lui appartient pas : la requête est refusée et la priorité reste inchangée.
+   PASS  Tests\Feature\DemoSeederTest
+  ✓ demo seeder                                                                                                  0.06s
 
+   PASS  Tests\Feature\ExampleTest
+  ✓ the application returns a successful response                                                                0.05s
+
+   PASS  Tests\Feature\InscriptionTest
+  ✓ un visiteur peut creer un compte                                                                             0.04s
+  ✓ email déjà utilisé                                                                                           0.03s
+  ✓ confirmation differente                                                                                      0.02s
+
+   PASS  Tests\Feature\TacheFactoryTest
+  ✓ factory tâches                                                                                               0.03s
+
+   PASS  Tests\Feature\TacheTest
+  ✓ la liste vide est accessible                                                                                 0.04s
+  ✓ le formulare de création est accessible                                                                      0.28s
+  ✓ une tâche valide est enregistree                                                                             0.03s
+  ✓ une tâche invalide est non enregistree                                                                       0.02s
+  ✓ une tache peut être modifiee                                                                                 0.03s
+  ✓ une tache invalide ne peut être modifiee                                                                     0.03s
+  ✓ supprimer une tache conserve les autres                                                                      0.04s
+  ✓ le filtre a faire exclut les taches terminees                                                                0.03s
+  ✓ le filtre terminee exclut les taches non terminees                                                           0.02s
+  ✓ une recherche sans resultat affiche un message vide                                                          0.03s
+  ✓ une recherche affiche plusieurs resultats par identifiant decroissant                                        0.02s
+  ✓ la recherche et le filtre detat peuvent etre combines                                                        0.03s
+  ✓ la pagination affiche les taches sur deux pages sans chevauchement                                           0.05s
+  ✓ la pagination conserve les criteres de recherche                                                             0.03s
+  ✓ la creation ignore un faux propretaire                                                                       0.02s
+  ✓ la liste affiche uniquement mes taches                                                                       0.03s
+  ✓ un utilisateur ne peut pas voir le detail dune tache dun autre                                               0.06s
+  ✓ un utilisateur ne peut pas ouvrir le formulaire de modification dune tache dun autre                         0.03s
+  ✓ un utilisateur ne peut pas modifier la tache dun autre                                                       0.03s
+  ✓ un utilisateur est refuse avant la validation pour modifier la tache dun autre                               0.03s
+  ✓ un utilisateur ne peut pas supprimer la tache dun autre                                                      0.04s
+  ✓ un proprietaire peut voir le detail de sa tache                                                              0.03s
+  ✓ les relations relient la tache a son proprietaire                                                            0.02s
+  ✓ une tache creee sans priorite recoit la priorite normale                                                     0.02s
+  ✓ une tache peut etre creee avec une priorite haute                                                            0.02s
+  ✓ une priorite invalide est refusee a la creation                                                              0.02s
+  ✓ la priorite dune tache peut etre modifiee                                                                    0.02s
+  ✓ une priorite invalide est refusee a la modification                                                          0.02s
+  ✓ un utilisateur ne peut pas modifier la priorite de la tache dun autre                                        0.02s
+  ✓ la liste et le detail affichent la priorite                                                                  0.03s
+
+  Tests:    42 passed (138 assertions)
+  Duration: 3.74s
+
+PS C:\projet\gestion-taches>
