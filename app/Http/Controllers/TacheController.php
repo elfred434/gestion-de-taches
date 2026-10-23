@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Models\Tache;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StoreTacheRequest;
 use App\Http\Requests\UpdateTacheRequest;
