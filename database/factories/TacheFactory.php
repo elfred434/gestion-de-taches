@@ -25,7 +25,7 @@ class TacheFactory extends Factory
 
             /*
              fake: génère des données fictives
-             sentences(4) génère une courte phrases 
+             sentence(4) génère une courte phrases 
              paragraph génère un paragraphe
              User::factory() prévoit la création d'un propriétaire si tu n'en fourni pas
              */
