@@ -67,3 +67,8 @@ PS C:\projet\gestion-taches>
   ✓ modifier une tache sans priorite conserve sa priorite actuelle                                               1.69s  
   Tests:    1 passed (3 assertions)
   Duration: 3.42s
+
+   PASS  Tests\Feature\TacheTest
+  ✓ le formulare de création est accessible                                                                      4.63s  
+  Tests:    1 passed (5 assertions)
+  Duration: 7.26s
