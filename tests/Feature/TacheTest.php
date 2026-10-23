@@ -5,9 +5,7 @@ namespace Tests\Feature;
 use App\Models\Tache;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Tests\TestCase;
-
 
 class TacheTest extends TestCase
 {
@@ -39,6 +37,10 @@ class TacheTest extends TestCase
 
         $reponse->assertOk();
         $reponse->assertViewIs('taches.creer');
+
+        $reponse->assertSee('value="basse"', false);
+        $reponse->assertSee('value="normale"', false);
+        $reponse->assertSee('value="haute"', false);
 
     }
 
@@ -237,6 +239,7 @@ class TacheTest extends TestCase
             && $taches->getCollection()->modelKeys() === [$aFaire->id];
         });
     }
+
     // Vérifie que le filtre « terminées » exclut les tâches à faire.
     public function test_le_filtre_terminee_exclut_les_taches_non_terminees(): void
     {
@@ -263,14 +266,14 @@ class TacheTest extends TestCase
         $reponse = $this->get(route('taches.index', [
             'q' => 'Laravel',
         ]));
-        //réponse 200
+        // réponse 200
         $reponse->assertOk();
-        //total de 0 ; collection vide ;
+        // total de 0 ; collection vide ;
         $reponse->assertViewHas('taches', function ($taches) {
             return $taches->total() === 0
                 && $taches->getCollection()->isEmpty();
         });
-        //message
+        // message
         $reponse->assertSee('Aucune tâche ne correspond à ces critères.');
     }
 
@@ -382,43 +385,44 @@ class TacheTest extends TestCase
         });
     }
 
-    public function test_la_creation_ignore_un_faux_propretaire(): void {
+    public function test_la_creation_ignore_un_faux_propretaire(): void
+    {
         $autreUtilisateur = User::factory()->create();
 
         $utilisateurConnecteId = auth()->id();
-         $reponse = $this->post(route('taches.store'), [
-        'titre' => 'Tester le propriétaire',
-        'description' => 'Vérifier que le propriétaire est défini par le contrôleur.',
-        'user_id' => $autreUtilisateur->id,
-    ]);
+        $reponse = $this->post(route('taches.store'), [
+            'titre' => 'Tester le propriétaire',
+            'description' => 'Vérifier que le propriétaire est défini par le contrôleur.',
+            'user_id' => $autreUtilisateur->id,
+        ]);
 
-    $reponse->assertRedirect(route('taches.index'));
+        $reponse->assertRedirect(route('taches.index'));
 
-    $this->assertDatabaseHas('taches', [
-        'titre' => 'Tester le propriétaire',
-        'user_id' => $utilisateurConnecteId,
-    ]);
+        $this->assertDatabaseHas('taches', [
+            'titre' => 'Tester le propriétaire',
+            'user_id' => $utilisateurConnecteId,
+        ]);
 
-    $this->assertDatabaseMissing('taches', [
-        'titre' => 'Tester le propriétaire',
-        'user_id' => $autreUtilisateur->id,
-    ]);
+        $this->assertDatabaseMissing('taches', [
+            'titre' => 'Tester le propriétaire',
+            'user_id' => $autreUtilisateur->id,
+        ]);
 
-    $this->assertDatabaseCount('taches', 1);
+        $this->assertDatabaseCount('taches', 1);
     }
 
-    public function test_la_liste_affiche_uniquement_mes_taches(): void{
+    public function test_la_liste_affiche_uniquement_mes_taches(): void
+    {
         $maTache = $this->creerTache('Ma tâche personnelle');
 
-        //créé un autre utilisateur
+        // créé un autre utilisateur
         $autreUtilisateur = User::factory()->create();
-        
+
         $this->creerTachePourUtilisateur($autreUtilisateur, 'Tache de l\'autre utilisateur');
 
         $reponse = $this->get(route('taches.index'));
         $reponse->assertOk();
-        $reponse->assertViewHas('taches', function ($taches) use ($maTache){
-           
+        $reponse->assertViewHas('taches', function ($taches) use ($maTache) {
 
             return $taches->count() === 1
             && $taches->total() === 1
